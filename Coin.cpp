@@ -38,7 +38,7 @@ Sprite* Coin::placeCoin()
 	{
 		auto layer = this->getParent();
 		auto newCoin = Sprite::create("coin.png");
-		//newCoin->runAction(RepeatForever::create(RotateBy::create(2,0,360)));
+		newCoin->runAction(RepeatForever::create(RotateBy::create(2,0,360)));
 
 		auto body = PhysicsBody::createCircle(newCoin->getContentSize().width/2);
 		body->setDynamic(false);
