@@ -10,7 +10,8 @@ Bullet::Bullet()
 Sprite* Bullet::Launch(Sprite* from, int direction)
 {
 	auto bullet = Sprite::create("bullet.png");
-	bullet->setPosition(from->getPositionX() + 1.2*direction*from->getContentSize().width, from->getPositionY());
+	bullet->setPosition(from->getPositionX() + 1.2*direction*from->getContentSize().width/2, from->getPositionY());
+	bullet->setTag(TAG_BULLET);
 	//bullet->runAction(MoveBy::create(1,Vec2(2000,0)));
 	auto body = PhysicsBody::createBox(bullet->getContentSize());
 	body->setCollisionBitmask(NO_COLLISION_MASK);
@@ -53,7 +54,7 @@ Sprite* Bullet::Launch(Sprite* from ,Vec2 hv){
 	float t = 1;
 	auto action =MoveTo::create(t,Vec2(hv.x+SPEED,hv.y));
 	auto bullet = Sprite::create("CloseNormal.png");
-	bullet->setPosition(Point(from->getPositionX(),from->getPositionY()-from->getContentSize().height/2-bullet->getContentSize().height/2));
+	bullet->setPosition(Vec2(from->getPositionX(),from->getPositionY()-from->getContentSize().height/2-bullet->getContentSize().height/2));
 
 	auto body = PhysicsBody::createBox(bullet->getContentSize());
 	body->setCollisionBitmask(NO_COLLISION_MASK);
@@ -65,4 +66,35 @@ Sprite* Bullet::Launch(Sprite* from ,Vec2 hv){
 	bulletsVector->pushBack(bullet);
 	
 	return bullet;
+}
+
+Sprite* Bullet::SpecialLaunch(Sprite* from, Weapon weapon, int direction)
+{
+	Sprite* launch;
+	switch (weapon)
+	{
+	case normalBullet:
+		launch = Launch(from,direction);
+		break;
+	case laser:
+		{
+			auto visibleWidth = Director::getInstance()->getVisibleSize().width;
+			launch = Sprite::create("laser.png");
+			launch->setPosition(from->getPositionX() + direction*from->getContentSize().width, from->getPositionY());
+			launch->setTag(TAG_LASER);
+			auto body = PhysicsBody::createBox(launch->getContentSize());
+			body->setCollisionBitmask(NO_COLLISION_MASK);
+			body->setContactTestBitmask(0xFFFFFFFF);
+			body->setVelocity(Vec2(4000*direction,0));
+			launch->setPhysicsBody(body);
+			break;
+		}
+	case damageBullet:
+		break;
+	case destroyBullet:
+		break;
+	default:
+		break;
+	}
+	return launch;
 }

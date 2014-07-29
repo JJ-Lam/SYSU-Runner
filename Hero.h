@@ -36,5 +36,6 @@ public:
 
 private:
 	void initSpriteFrames();
+	Weapon weapon;
 };
 #endif

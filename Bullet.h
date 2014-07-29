@@ -6,6 +6,14 @@
 
 USING_NS_CC;
 
+enum Weapon
+{
+	normalBullet,
+	laser,
+	damageBullet,
+	destroyBullet
+};
+
 class Bullet : public cocos2d::Node
 {
 public:
@@ -13,7 +21,9 @@ public:
 	Sprite* Launch(Sprite* from, int direction = 1);	//1为向右，-1为向左
 	void removeUselessBullets();
 	void removeOneBullet(Sprite* bullet);
+
 	Sprite* Launch(Sprite* from ,Vec2 v2);
+	Sprite* SpecialLaunch(Sprite* from, Weapon weapon, int direction = 1);
 
 private:
 	

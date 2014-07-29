@@ -71,6 +71,7 @@ static const int TAG_BULLET = 3;
 static const int TAG_ENEMY = 4;
 static const char* BULLET_WAV = "bgm\\hero\\shoot.wav";
 static const int TAG_BULLET_CLASS = 259;
+static const int TAG_LASER = 7;
 //coin
 static const int TAG_COIN = 5;
 static const float COIN_WIDTH = 10;

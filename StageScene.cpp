@@ -104,96 +104,7 @@ bool StageScene::init()
 
 	//碰撞回调函数
 	auto contactListener = EventListenerPhysicsContact::create();
-	contactListener->onContactBegin = [=](const PhysicsContact& contact)
-	{
-		auto spriteA = (Sprite*)contact.getShapeA()->getBody()->getNode();
-		auto spriteB = (Sprite*)contact.getShapeB()->getBody()->getNode();
-		if(spriteA == NULL || spriteB == NULL)
-			return false;
-
-		//主角与地面碰撞，将主角状态从JUMP恢复为NOMAL
-		if((spriteA->getTag() == TAG_HERO && spriteB->getTag() == TAG_GROUND) || (spriteB->getTag() == TAG_HERO && spriteA->getTag() == TAG_GROUND))
-		{
-			
-			auto body = hero->myHero->getPhysicsBody();
-			//body->setVelocity(Vec2(body->getVelocity().x,0));
-			hero->status = HERO_STATUS_NOMAL;
-			hero->runAction("run");
-		}
-
-		//子弹与其他物体碰撞，消除子弹
-		if(spriteA->getTag() == TAG_BULLET || spriteB->getTag() == TAG_BULLET)
-		{
-			if(spriteA->getTag() != TAG_BULLET)
-			{
-				std::swap(spriteA,spriteB);
-			}
-			b->removeOneBullet(spriteA);
-			if(spriteB->getTag() == TAG_BOSS)
-			{
-				stageBoss->injured(20);
-			}
-			else if(spriteB->getTag() == TAG_HERO)
-			{
-				hero->injured(10);
-			}
-			else if(spriteB->getTag() == TAG_ENEMY)
-			{
-				auto s = (Enemy*)spriteB->getParent();
-				eneList.eraseObject(s);
-				if(s->getState() !=666)
-				{
-				s->setState(ENEMY_DEAD);
-				s->doAction();
-				}
-			}
-		}
-
-		//主角与金币碰撞，增加积分
-		else if(spriteA->getTag() == TAG_HERO && spriteB->getTag() == TAG_COIN || spriteB->getTag() == TAG_HERO && spriteA->getTag() == TAG_COIN)
-		{
-			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(GETCOIN_WAV);
-			if(spriteA->getTag() == TAG_COIN)
-				c->removeOneCoin(spriteA);
-			else
-				c->removeOneCoin(spriteB);
-			auto info = (InformationLayer*)Director::getInstance()->getRunningScene()->getChildByTag(TAG_INFORMATION);
-			info->changeScore(10);
-		}
-		else if(spriteA->getTag() == TAG_HERO && spriteB->getTag() == TAG_NAIL || spriteB->getTag() == TAG_HERO && spriteA->getTag() == TAG_NAIL)
-		{
-			hero->injured(NAIL_DAMAGE);
-			
-		}
-			else if(spriteA->getTag() == TAG_HERO && spriteB->getTag() > TAG_DROP || spriteB->getTag() == TAG_HERO && spriteA->getTag() > TAG_DROP)
-		{
-			if(spriteA->getTag() != TAG_HERO)
-				std::swap(spriteA,spriteB);
-			d->curdropItemlist.eraseObject(spriteB);
-			switch(spriteB->getTag())
-			{
-			case TAG_DROP_HEAL:
-				hero->heal(30);
-				break;
-			case TAG_DROP_BLIND:
-				blind();
-				break;
-			case TAG_DROP_ENENMY:
-				hero->setBuff(HERO_BUFF_SPEEDUP);
-				break;
-			case TAG_DROP_INVINCIBLE:
-				hero->setBuff(HERO_BUFF_INVINCIBLE);
-				break;
-			case TAG_DROP_POISON:
-				hero->injured(10);
-				break;
-			default:
-				break;
-			}
-			this->removeChild(spriteB);
-		}
-		return true;
-	};
+	contactListener->onContactBegin = CC_CALLBACK_1(StageScene::onContactBegin, this);
 	dispatcher->addEventListenerWithFixedPriority(contactListener,10);
     
 	scheduleUpdate();
@@ -400,4 +311,96 @@ void StageScene::blind()
 void StageScene::blindRecover(float time)
 {
 	this->getParent()->getParent()->removeChildByTag(233);
+}
+
+//碰撞检测函数
+bool StageScene::onContactBegin(const PhysicsContact& contact)
+{
+		auto spriteA = (Sprite*)contact.getShapeA()->getBody()->getNode();
+		auto spriteB = (Sprite*)contact.getShapeB()->getBody()->getNode();
+		if(spriteA == NULL || spriteB == NULL)
+			return false;
+
+		//主角与地面碰撞，将主角状态从JUMP恢复为NOMAL
+		if((spriteA->getTag() == TAG_HERO && spriteB->getTag() == TAG_GROUND) || (spriteB->getTag() == TAG_HERO && spriteA->getTag() == TAG_GROUND))
+		{
+			
+			auto body = hero->myHero->getPhysicsBody();
+			//body->setVelocity(Vec2(body->getVelocity().x,0));
+			hero->status = HERO_STATUS_NOMAL;
+			hero->runAction("run");
+		}
+
+		//子弹与其他物体碰撞，消除子弹，并根据另一物体的类型进行处理
+		if(spriteA->getTag() == TAG_BULLET || spriteB->getTag() == TAG_BULLET)
+		{
+			if(spriteA->getTag() != TAG_BULLET)
+			{
+				std::swap(spriteA,spriteB);
+			}
+			b->removeOneBullet(spriteA);
+			if(spriteB->getTag() == TAG_BOSS)
+			{
+				stageBoss->injured(20);
+			}
+			else if(spriteB->getTag() == TAG_HERO)
+			{
+				hero->injured(10);
+			}
+			else if(spriteB->getTag() == TAG_ENEMY)
+			{
+				auto s = (Enemy*)spriteB->getParent();
+				eneList.eraseObject(s);
+				if(s->getState() !=666)
+				{
+					s->setState(ENEMY_DEAD);
+					s->doAction();
+				}
+			}
+		}
+
+		//主角与金币碰撞，增加积分
+		else if(spriteA->getTag() == TAG_HERO && spriteB->getTag() == TAG_COIN || spriteB->getTag() == TAG_HERO && spriteA->getTag() == TAG_COIN)
+		{
+			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(GETCOIN_WAV);
+			if(spriteA->getTag() == TAG_COIN)
+				c->removeOneCoin(spriteA);
+			else
+				c->removeOneCoin(spriteB);
+			auto info = (InformationLayer*)Director::getInstance()->getRunningScene()->getChildByTag(TAG_INFORMATION);
+			info->changeScore(10);
+		}
+		else if(spriteA->getTag() == TAG_HERO && spriteB->getTag() == TAG_NAIL || spriteB->getTag() == TAG_HERO && spriteA->getTag() == TAG_NAIL)
+		{
+			hero->injured(NAIL_DAMAGE);
+			
+		}
+			else if(spriteA->getTag() == TAG_HERO && spriteB->getTag() > TAG_DROP || spriteB->getTag() == TAG_HERO && spriteA->getTag() > TAG_DROP)
+		{
+			if(spriteA->getTag() != TAG_HERO)
+				std::swap(spriteA,spriteB);
+			d->curdropItemlist.eraseObject(spriteB);
+			switch(spriteB->getTag())
+			{
+			case TAG_DROP_HEAL:
+				hero->heal(30);
+				break;
+			case TAG_DROP_BLIND:
+				blind();
+				break;
+			case TAG_DROP_ENENMY:
+				hero->setBuff(HERO_BUFF_SPEEDUP);
+				break;
+			case TAG_DROP_INVINCIBLE:
+				hero->setBuff(HERO_BUFF_INVINCIBLE);
+				break;
+			case TAG_DROP_POISON:
+				hero->injured(10);
+				break;
+			default:
+				break;
+			}
+			this->removeChild(spriteB);
+		}
+		return true;
 }

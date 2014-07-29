@@ -34,6 +34,8 @@ public:
 
 	virtual void onTouchEnded(Touch *touch, Event* event);
 
+	bool onContactBegin(const PhysicsContact& contact);
+
 	void setPhyWorld(PhysicsWorld* world){m_world = world;}
 
 	virtual void update(float time);

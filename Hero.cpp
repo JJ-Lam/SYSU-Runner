@@ -15,7 +15,7 @@ Hero::Hero()
 	cache->addSpriteFramesWithFile("Hero//hero.plist");
 	_heros = SpriteBatchNode::create("Hero//hero.png");
 	myHero = Sprite::createWithSpriteFrameName("run0.png");
-	
+	weapon = laser;
 
 	this->initSpriteFrames();
 
@@ -79,7 +79,7 @@ void Hero::attack()
 	//获取层
 	StageScene* layer = (StageScene*)this->getParent();
 	//调用Bullet类的Launch方法，并addchild到层中
-	layer->addChild(layer->getBulletClass()->Launch(this->myHero),1,TAG_BULLET);
+	layer->addChild(layer->getBulletClass()->SpecialLaunch(this->myHero,weapon),1,TAG_BULLET);
 	auto animation1 = AnimationCache::sharedAnimationCache()->animationByName("shoot");
 	auto animate1 = Animate::create(animation1);
 	auto animation2 = AnimationCache::sharedAnimationCache()->animationByName("run");
@@ -199,6 +199,8 @@ void Hero::runCallBack(){
 
 void Hero::setBuff(int buff)
 {
+	if(this->buff == buff)
+		return;
 	this->buff = buff;
 	if(buff == HERO_BUFF_INVINCIBLE)
 	{
