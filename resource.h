@@ -72,6 +72,8 @@ static const int TAG_ENEMY = 4;
 static const char* BULLET_WAV = "bgm\\hero\\shoot.wav";
 static const int TAG_BULLET_CLASS = 259;
 static const int TAG_LASER = 7;
+static const int TAG_DESTROY = 8;
+static const int TAG_DAMAGE = 9;
 //coin
 static const int TAG_COIN = 5;
 static const float COIN_WIDTH = 10;
@@ -100,9 +102,6 @@ static const int TAG_GAMEOVER = 345;
 static const int TAG_STAGESCENE = 235;
 
 //mask
-
-static const int COIN_CATEGORY_MASK;
-static const int COIN_CONTACT_MASK;
 static const int COIN_COLLISION_MASK = 0x00000000;
 
 static const int TAG_RUN_ACTION = 66;

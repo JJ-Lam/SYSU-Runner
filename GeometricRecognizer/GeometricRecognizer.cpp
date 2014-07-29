@@ -140,7 +140,7 @@ namespace DollarRecognizer
 		double f1 = distanceAtAngle(points, aTemplate, x1);
 		double x2 = (1.0 - goldenRatio) * startRange + goldenRatio * endRange;
 		double f2 = distanceAtAngle(points, aTemplate, x2);
-		while (abs(endRange - startRange) > anglePrecision)
+		while (((endRange - startRange) * (endRange - startRange)) > (anglePrecision * anglePrecision))
 		{
 			if (f1 < f2)
 			{

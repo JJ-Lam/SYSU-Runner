@@ -15,7 +15,7 @@ Hero::Hero()
 	cache->addSpriteFramesWithFile("Hero//hero.plist");
 	_heros = SpriteBatchNode::create("Hero//hero.png");
 	myHero = Sprite::createWithSpriteFrameName("run0.png");
-	weapon = laser;
+	weapon = damageBullet;
 
 	this->initSpriteFrames();
 

@@ -338,10 +338,14 @@ bool StageScene::onContactBegin(const PhysicsContact& contact)
 			{
 				std::swap(spriteA,spriteB);
 			}
-			b->removeOneBullet(spriteA);
+
+			int damage = 20;
+			if(spriteA->getPhysicsBody()->getTag() == TAG_DAMAGE)
+				damage *= 2;
+
 			if(spriteB->getTag() == TAG_BOSS)
 			{
-				stageBoss->injured(20);
+				stageBoss->injured(damage);
 			}
 			else if(spriteB->getTag() == TAG_HERO)
 			{
@@ -357,6 +361,16 @@ bool StageScene::onContactBegin(const PhysicsContact& contact)
 					s->doAction();
 				}
 			}
+			//destroyBullet可以破坏钉板
+			if(spriteA->getPhysicsBody()->getTag() == TAG_DESTROY &&  spriteB->getTag() == TAG_NAIL)
+			{
+				na->curNailList.eraseObject(spriteB);
+				spriteB->removeFromParentAndCleanup(true);
+			}
+			//laser可以穿透物体
+			else if(spriteA->getPhysicsBody()->getTag() != TAG_LASER)
+				b->removeOneBullet(spriteA);
+
 		}
 
 		//主角与金币碰撞，增加积分

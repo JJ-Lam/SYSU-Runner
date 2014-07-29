@@ -70,6 +70,7 @@ Sprite* Bullet::Launch(Sprite* from ,Vec2 hv){
 
 Sprite* Bullet::SpecialLaunch(Sprite* from, Weapon weapon, int direction)
 {
+	auto visibleWidth = Director::getInstance()->getVisibleSize().width;
 	Sprite* launch;
 	switch (weapon)
 	{
@@ -78,21 +79,43 @@ Sprite* Bullet::SpecialLaunch(Sprite* from, Weapon weapon, int direction)
 		break;
 	case laser:
 		{
-			auto visibleWidth = Director::getInstance()->getVisibleSize().width;
 			launch = Sprite::create("laser.png");
 			launch->setPosition(from->getPositionX() + direction*from->getContentSize().width, from->getPositionY());
-			launch->setTag(TAG_LASER);
+			launch->setTag(TAG_BULLET);
 			auto body = PhysicsBody::createBox(launch->getContentSize());
 			body->setCollisionBitmask(NO_COLLISION_MASK);
 			body->setContactTestBitmask(0xFFFFFFFF);
-			body->setVelocity(Vec2(4000*direction,0));
+			body->setVelocity(Vec2(3500*direction,0));
+			body->setTag(TAG_LASER);
 			launch->setPhysicsBody(body);
 			break;
 		}
 	case damageBullet:
-		break;
+		{
+			launch = Sprite::create("damageBullet.png");
+			launch->setPosition(from->getPositionX() + direction*from->getContentSize().width, from->getPositionY());
+			launch->setTag(TAG_BULLET);
+			auto body = PhysicsBody::createBox(launch->getContentSize());
+			body->setCollisionBitmask(NO_COLLISION_MASK);
+			body->setContactTestBitmask(0xFFFFFFFF);
+			body->setVelocity(Vec2(2000*direction,0));
+			body->setTag(TAG_DAMAGE);
+			launch->setPhysicsBody(body);
+			break;
+		}
 	case destroyBullet:
-		break;
+		{
+			launch = Sprite::create("destroyBullet.png");
+			launch->setPosition(from->getPositionX() + direction*from->getContentSize().width, from->getPositionY());
+			launch->setTag(TAG_BULLET);
+			auto body = PhysicsBody::createBox(launch->getContentSize());
+			body->setCollisionBitmask(NO_COLLISION_MASK);
+			body->setContactTestBitmask(0xFFFFFFFF);
+			body->setVelocity(Vec2(800*direction,0));
+			body->setTag(TAG_DESTROY);
+			launch->setPhysicsBody(body);
+			break;
+		}
 	default:
 		break;
 	}
