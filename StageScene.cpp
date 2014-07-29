@@ -148,7 +148,6 @@ bool StageScene::init()
 				}
 			}
 		}
-			//hero->injured(10);
 
 		//主角与金币碰撞，增加积分
 		else if(spriteA->getTag() == TAG_HERO && spriteB->getTag() == TAG_COIN || spriteB->getTag() == TAG_HERO && spriteA->getTag() == TAG_COIN)
@@ -401,11 +400,4 @@ void StageScene::blind()
 void StageScene::blindRecover(float time)
 {
 	this->getParent()->getParent()->removeChildByTag(233);
-}
-
-void StageScene::onExit()
-{
-	Layer::onExit();
-
-	c->onExit();
 }

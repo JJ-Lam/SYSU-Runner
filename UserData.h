@@ -17,6 +17,8 @@ public:
 	int getPoints(){return totalPoints;};
 	int getUnlockStages(){return unlockStage;};
 
+	int stageCount;
+
 	void gainPoints(int points);
 	void unlockNewStage();
 	void saveData();

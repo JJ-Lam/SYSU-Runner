@@ -5,6 +5,7 @@ USING_NS_CC;
 
 Coin::Coin(Layer* l)
 {
+	this->autorelease();
 	coinsVector = new Vector<Sprite*>;
 	auto sp = Sprite::create(PIC_COIN);
 	coinSize = sp->getContentSize();
@@ -187,14 +188,4 @@ float Coin::calY(int x){
 	float ret;
 	ret = coinSize.height*(x-1);
 	return ret;
-}
-
-void Coin::onExit()
-{
-	Node::onExit();
-
-	for(int i = 0; i < coinsVector->size(); i++)
-	{
-		coinsVector->at(i)->removeFromParent();
-	}
 }

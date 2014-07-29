@@ -18,6 +18,8 @@ public:
 	void gameStartCallBack(Ref* pSender);
 
 private:
+	int selectedStage;
+
 	virtual void scrollViewDidScroll(ScrollView* view);
 	virtual void scrollViewDidZoom(ScrollView* view);
 
@@ -25,7 +27,6 @@ private:
     virtual void onTouchMoved(Touch* touch, Event* event);
     virtual void onTouchEnded(Touch* touch, Event* event);
 
-	int x;
 	ScrollView* scrollview;
 };
 

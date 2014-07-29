@@ -1,6 +1,7 @@
 #include "StageSelectScene.h"
 #include "GameMenu.h"
 #include "StageScene.h"
+#include "UserData.h"
 
 Scene* StageSelectScene::createScene()
 {
@@ -23,14 +24,14 @@ bool StageSelectScene::init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    /*auto gameStart = MenuItemImage::create(
-                                           "newgameA.png",
-                                           "newgameB.png",
+    auto gameStart = MenuItemImage::create(
+                                           "start.png",
+                                           "start.png",
 										   CC_CALLBACK_1(StageSelectScene::gameStartCallBack,this));
-	gameStart->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+	gameStart->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/8 + origin.y));
 	auto menu = Menu::create(gameStart, NULL);
     menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);*/
+    this->addChild(menu, 1);
     
 	auto content = "select a stage";
 	auto label = LabelTTF::create(content, "Arial", 24);  
@@ -77,6 +78,7 @@ bool StageSelectScene::init()
 
 void StageSelectScene::gameStartCallBack(Ref* pSender)
 {
+	UserData::getInstance()->stageCount = selectedStage;
 	Director::getInstance()->replaceScene(StageScene::createScene());
 }
 
@@ -87,16 +89,21 @@ bool StageSelectScene::onTouchBegan(Touch* touch, Event* event)
 
 void StageSelectScene::onTouchMoved(Touch* touch, Event* event)
 {
-	x = scrollview->getContentOffset().x;//xÖáµÄÆ«ÒÆÁ¿
-    CCLOG("%d",x);
+
 }
 
 void StageSelectScene::onTouchEnded(Touch* touch, Event* event)
 {
 	if(scrollview->getContentOffset().x < -250)
+	{
 		scrollview->setContentOffset(Vec2(-700,320));
+		selectedStage = 2;
+	}
 	else
+	{
 		scrollview->setContentOffset(Vec2(0,320));
+		selectedStage = 1;
+	}
 }
 
 void StageSelectScene::scrollViewDidScroll(ScrollView* view)

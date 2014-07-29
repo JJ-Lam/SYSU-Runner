@@ -24,9 +24,7 @@ class StageScene : public cocos2d::Layer
 public:
     static cocos2d::Scene* createScene();
 
-	virtual bool init();  
-
-	void onExit();
+	virtual bool init();
     
 	CREATE_FUNC(StageScene);
 

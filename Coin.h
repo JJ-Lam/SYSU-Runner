@@ -28,8 +28,6 @@ public:
 	void placecoinLine(Vec2 posStart,Vec2 posEnd);
 
 	void placecoinArrow(Vec2 pstart,Vec2 pend);
-
-	void onExit();
 private:
 	Vector<Sprite*>* coinsVector;
 	int typeSelector();
