@@ -19,6 +19,7 @@ public:
 
 private:
 	int selectedStage;
+	int selectedWeapon;
 
 	virtual void scrollViewDidScroll(ScrollView* view);
 	virtual void scrollViewDidZoom(ScrollView* view);
@@ -26,6 +27,8 @@ private:
 	virtual bool onTouchBegan(Touch* touch, Event* event);
     virtual void onTouchMoved(Touch* touch, Event* event);
     virtual void onTouchEnded(Touch* touch, Event* event);
+
+	void weaponMenuCallBack(Object* sender);
 
 	ScrollView* scrollview;
 };

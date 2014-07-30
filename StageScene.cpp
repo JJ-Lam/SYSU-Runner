@@ -85,7 +85,7 @@ bool StageScene::init()
 
 
 	//初始化Hero对象
-	hero = new Hero();
+	hero = new Hero((Weapon)UserData::getInstance()->selectedWeapon);
 	hero->myHero->setPosition(Vec2(0, visibleSize.height/2 + origin.y));
 	hero->myHero->getPhysicsBody()->setVelocity(Vec2(100,0));
 	this->addChild(hero);

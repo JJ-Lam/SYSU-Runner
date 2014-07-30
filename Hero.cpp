@@ -5,9 +5,10 @@
 
 USING_NS_CC;
 
-Hero::Hero()
+Hero::Hero(Weapon w)
 {
 	//初始化变量
+	weapon = w;
 	hp = 100;
 	status = HERO_STATUS_NOMAL;
 	buff = HERO_BUFF_NORMAL;
@@ -15,7 +16,7 @@ Hero::Hero()
 	cache->addSpriteFramesWithFile("Hero//hero.plist");
 	_heros = SpriteBatchNode::create("Hero//hero.png");
 	myHero = Sprite::createWithSpriteFrameName("run0.png");
-	weapon = damageBullet;
+	//weapon = damageBullet;
 
 	this->initSpriteFrames();
 

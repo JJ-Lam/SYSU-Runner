@@ -8,10 +8,10 @@ USING_NS_CC;
 
 enum Weapon
 {
-	normalBullet,
-	laser,
-	damageBullet,
-	destroyBullet
+	normalBullet = 0,
+	damageBullet = 1,
+	destroyBullet = 2,
+	laser = 3
 };
 
 class Bullet : public cocos2d::Node

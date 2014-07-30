@@ -41,7 +41,7 @@ bool GameMenu::init()
 
 	auto gameSetting = MenuItemImage::create(
                                            "setting.png",
-                                           "nsetting.png");
+                                           "setting.png");
 	gameSetting->setPosition(Vec2(visibleSize.width/2 + 350, visibleSize.height/2 + origin.y - 80));
 
 	auto gameQuit = MenuItemImage::create(

@@ -9,7 +9,7 @@ USING_NS_CC;
 class Hero : public cocos2d::Node
 {
 public:
-	Hero();
+	Hero(Weapon w);
 	void injured(int damage);
 	
 	void jump();

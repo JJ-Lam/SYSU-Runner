@@ -153,4 +153,9 @@ static const int TAG_HERO_HPBAR = 123;
 static const int TAG_BOSS_HPBAR = 124;
 static const int TAG_BOSS = 6;
 static const int TAG_STAGECLEAR = 346;
+
+//Í¼Æ¬Â·¾¶
+static const string WEAPON_BUTTONS[4] = {"weapon/bulletButton.png","weapon/damageButton.png","weapon/destroyButton.png","weapon/laserButton.png"};
+
+
 #endif
