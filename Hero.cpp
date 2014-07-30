@@ -10,8 +10,11 @@ Hero::Hero(Weapon w)
 	//初始化变量
 	weapon = w;
 	hp = 100;
+	mp = 100;
 	status = HERO_STATUS_NOMAL;
 	buff = HERO_BUFF_NORMAL;
+	mpRechargeEnableTime = 0;
+
 	auto cache = SpriteFrameCache::sharedSpriteFrameCache();
 	cache->addSpriteFramesWithFile("Hero//hero.plist");
 	_heros = SpriteBatchNode::create("Hero//hero.png");
@@ -27,6 +30,7 @@ Hero::Hero(Weapon w)
 	myHero->setPhysicsBody(body);
 
 	this->runAction("run");
+	scheduleUpdate();
 }
 
 void Hero::injured(int damage)
@@ -41,7 +45,7 @@ void Hero::injured(int damage)
 		else
 		{
 			hp -= damage;
-			HpBar* bar = (HpBar*)this->getParent()->getParent()->getParent()->getChildByTag(TAG_INFORMATION)->getChildByTag(TAG_HPBAR);
+			HpBar* bar = (HpBar*)this->getParent()->getParent()->getParent()->getChildByTag(TAG_INFORMATION)->getChildByTag(TAG_HERO_HPBAR);
 			bar->changeHp(-damage);
 			this->runAction("injured");
 			if(hp <= 0)
@@ -76,6 +80,28 @@ void Hero::jump()
 
 void Hero::attack()
 {
+	switch (weapon)
+	{
+	case normalBullet:
+		if(!mpChange(-10))
+			return;
+		break;
+	case damageBullet:
+		if(!mpChange(-15))
+			return;
+		break;
+	case destroyBullet:
+		if(!mpChange(-20))
+			return;
+		break;
+	case laser:
+		if(!mpChange(-25))
+			return;
+		break;
+	default:
+		break;
+	}
+	mpRechargeEnableTime = -60;
 	myHero->stopActionByTag(TAG_RUN_ACTION);
 	//获取层
 	StageScene* layer = (StageScene*)this->getParent();
@@ -224,4 +250,38 @@ void Hero::removeBuff(float time)
 void Hero::bubbleUpdate()
 {
 	bubble->setPosition(myHero->getPosition());
+}
+
+bool Hero::mpChange(int change)
+{
+	HpBar* mpbar = (HpBar*)this->getParent()->getParent()->getParent()->getChildByTag(TAG_INFORMATION)->getChildByTag(TAG_HERO_MPBAR);
+	if(mp + change < 0)
+	{
+		mpbar->progressTimer->runAction(Sequence::createWithTwoActions(Blink::create(0.4,3),CallFunc::create(CC_CALLBACK_0(Hero::mpBlinkCallBack,this))));
+		return false;
+	}
+	mp += change;
+	if(mp > 100)
+		mp = 100;
+	mpbar->changeHp(change);
+	return true;
+}
+
+void Hero::update(float time)
+{
+	//保持主角的前进速度
+	auto sp = buff == HERO_BUFF_SPEEDUP? SPEED*2 : SPEED;
+	myHero->getPhysicsBody()->setVelocity(Vec2(sp,myHero->getPhysicsBody()->getVelocity().y));
+	mpRechargeEnableTime++;
+	if(mpRechargeEnableTime >= 30)
+	{
+		mpChange(15);
+		mpRechargeEnableTime = 0;
+	}
+}
+
+void Hero::mpBlinkCallBack()
+{
+	HpBar* mpbar = (HpBar*)this->getParent()->getParent()->getParent()->getChildByTag(TAG_INFORMATION)->getChildByTag(TAG_HERO_MPBAR);
+	mpbar->progressTimer->setVisible(true);
 }

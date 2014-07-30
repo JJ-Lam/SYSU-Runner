@@ -26,6 +26,7 @@ public:
 	SpriteBatchNode* _heros;
 
 	int hp;
+	int mp;
 	int status;
 	int buff;
 
@@ -34,8 +35,13 @@ public:
 	void removeBuff(float time);
 	void bubbleUpdate();
 
+	bool mpChange(int change);
+	void update(float time);
+
 private:
 	void initSpriteFrames();
 	Weapon weapon;
+	int mpRechargeEnableTime;
+	void mpBlinkCallBack();
 };
 #endif

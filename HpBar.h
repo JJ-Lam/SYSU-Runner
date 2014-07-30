@@ -5,10 +5,15 @@
 
 USING_NS_CC;
 
+enum bar_type{
+	hpbar,
+	mpbar
+};
+
 class HpBar : public Node
 {
 public:
-	HpBar(int max);
+	HpBar(int max, bar_type type);
 	void changeHp(int change);
 	void setHpbar(Vec2 pos, float scalex, float scaley);
 	Sprite* background;

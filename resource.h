@@ -9,7 +9,7 @@ static const int TAG_OBSTALCE = 890;
 static const int OB_BANDING = 88;
 static const int BANDING_HEIGHT = 80;
 static const int BANDING_INTERVAL = 40;
-static const string PIC_BANDING = "Obst\\banding.png";
+static const string PIC_BANDING = "Obst/banding.png";
 static const int BAND_WITDH = 185;
 static const int BAND_H = 50;
 static const int BANDING_BLOCK = 400;
@@ -59,7 +59,7 @@ static const int GROUND_MIN_INTERVAL = 1900;           //最大最小间隔
 static const int GROUND_MAX_INTERVAL = 2600;
 static const int GROUND_MIN_LENGTH = 2500;			//最大最小长度
 static const int GROUND_MAX_LENGTH = 4000;
-static const string PIC_GROUND ="Obst\\ground.png";
+static const string PIC_GROUND ="Obst/ground.png";
 static const float GROUND_HHH = 75;
 //Map 刷新
 static const int TAG_MAP = 111;
@@ -69,7 +69,7 @@ static const string PIC_BMAP ="bgb.png";
 //bullet
 static const int TAG_BULLET = 3;
 static const int TAG_ENEMY = 4;
-static const char* BULLET_WAV = "bgm\\hero\\shoot.wav";
+static const char* BULLET_WAV = "bgm/hero/shoot.wav";
 static const int TAG_BULLET_CLASS = 259;
 static const int TAG_LASER = 7;
 static const int TAG_DESTROY = 8;
@@ -96,7 +96,6 @@ static const int GRAVITY = -300;
 
 static const int JumpHeight = 250;
 
-static const int TAG_HPBAR = 123;
 static const int TAG_INFORMATION = 234;
 static const int TAG_GAMEOVER = 345;
 static const int TAG_STAGESCENE = 235;
@@ -119,30 +118,30 @@ static const float ENE_ATTACK_DIST = 600;
 //dropItem刷新相关
 static const int TAG_DROP = 660;
 static const int TAG_DROP_INVINCIBLE = 666;
-static const int TAG_DROP_ENENMY = 667;
+static const int TAG_DROP_SPEEDUP = 667;
 static const int TAG_DROP_HEAL = 668;
 static const int TAG_DROP_POISON = 669;
 static const int TAG_DROP_BLIND = 670;
 static const float DROP_RATE = 0.8f;
 //音效
-static const char* JUMP_WAV = "bgm\\hero\\jump.wav";
-static const char* GETCOIN_WAV = "bgm\\hero\\getcoin.wav";
+static const char* JUMP_WAV = "bgm/hero/jump.wav";
+static const char* GETCOIN_WAV = "bgm/hero/getcoin.wav";
 //paraNode
 static const int MID_SCENE = 1;
 static const int FAR_SCENE = 2;
 static const int FARFAR_SCENE = 3;
 
 static const int TAG_PARA = 888;
-static const string PIC_MID = "background\\1.png";
-static const string PIC_FAR = "background\\2.png";
-static const string PIC_FARFAR = "background\\3.png";
+static const string PIC_MID = "background/1.png";
+static const string PIC_FAR = "background/2.png";
+static const string PIC_FARFAR = "background/3.png";
 static const float MID_RATE = 0.5;
 static const float FAR_RATE = 0.2;
 static const string BG_PIC[3] = {PIC_MID,PIC_FAR,PIC_FARFAR};
 
 //nail
 static const int TAG_NAIL = 333;
-static const string PIC_NAIL = "Obst\\nail.png";
+static const string PIC_NAIL = "Obst/nail.png";
 static const int NAIL_BLOCK = 1500;
 static const int NAIL_DAMAGE = 20;
 
@@ -151,11 +150,15 @@ static const int NO_COLLISION_MASK = 0x00000000;
 //血量
 static const int TAG_HERO_HPBAR = 123;
 static const int TAG_BOSS_HPBAR = 124;
+static const int TAG_HERO_MPBAR = 125;
 static const int TAG_BOSS = 6;
 static const int TAG_STAGECLEAR = 346;
 
-//图片路径
-static const string WEAPON_BUTTONS[4] = {"weapon/bulletButton.png","weapon/damageButton.png","weapon/destroyButton.png","weapon/laserButton.png"};
+//音效与图片
+static const char* JUMP_WAV = "bgm/hero/jump.wav";
+static const char* GETCOIN_WAV = "bgm/hero/getcoin.wav";
+static const char* BULLET_WAV = "bgm/hero/shoot.wav";
 
+static const string WEAPON_BUTTONS[4] = {"weapon/bulletButton.png","weapon/damageButton.png","weapon/destroyButton.png","weapon/laserButton.png"};
 
 #endif

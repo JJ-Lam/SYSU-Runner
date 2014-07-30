@@ -30,7 +30,6 @@ int dropItem::typeSelector(){
 void dropItem::drop(){
 	int type = typeSelector();
 	type = type+666;
-	//type = TAG_DROP_ENENMY;
 	auto size =Director::getInstance()->getWinSize();
 	switch(type)
 	{
@@ -47,7 +46,7 @@ void dropItem::drop(){
 			curdropItemlist.pushBack(tdi);
 			break;
 			}
-		case TAG_DROP_ENENMY:
+		case TAG_DROP_SPEEDUP:
 			{
 			auto tdi = Sprite::createWithSpriteFrameName("speedup.png");
 			auto body = PhysicsBody::createCircle(tdi->getContentSize().width/2);

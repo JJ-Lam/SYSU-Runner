@@ -26,6 +26,7 @@ public:
 
 private:
 	HpBar* herohpbar;
+	HpBar* herompbar;
 	HpBar* bosshpbar;
 	Label* scoreLabel;
 	ProgressTimer* progressTimer;

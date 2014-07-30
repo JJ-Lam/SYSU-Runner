@@ -2,7 +2,7 @@
 
 USING_NS_CC;
 
-HpBar::HpBar(int max)
+HpBar::HpBar(int max, bar_type type)
 {
 	maxHp = max;
 	currentHp = max;
@@ -10,8 +10,11 @@ HpBar::HpBar(int max)
 	Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	hp = Sprite::create("hp.jpg");
-	background = Sprite::create("hpbar.png");
+	if(type == bar_type::hpbar)
+		hp = Sprite::create("hp.jpg");
+	else if(type == bar_type::mpbar)
+		hp = Sprite::create("mp.jpg");
+	background = Sprite::create("barBackground.png");
 
 	progressTimer = ProgressTimer::create(hp);
 	progressTimer->setType(ProgressTimer::Type::BAR);
@@ -41,4 +44,6 @@ void HpBar::setHpbar(Vec2 pos, float scalex, float scaley)
 	background->setPosition(pos);
 	progressTimer->setScaleX(scalex);
 	progressTimer->setScaleY(scaley);
+	background->setScaleX(scalex);
+	background->setScaleY(scaley);
 }

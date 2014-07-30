@@ -17,7 +17,7 @@ bool InformationLayer::init()
 
 	//stage demo
 	auto content = "stage demo";
-	auto title = Label::create(content, "Arial", 24);  
+	auto title = Label::create(content, "Arial", 24);
 	title->setPosition(Vec2(origin.x + visibleSize.width/2,
 							origin.y + visibleSize.height - title->getContentSize().height));
 	this->addChild(title);
@@ -38,14 +38,17 @@ bool InformationLayer::init()
 	this->addChild(scLabel,1,TAG_STAGECLEAR);
 	scLabel->setVisible(false);
 
-	//主角血条
-	herohpbar = new HpBar(100);
+	//主角血条和MP条
+	herohpbar = new HpBar(100,bar_type::hpbar);
 	herohpbar->setHpbar(Vec2(origin.x + visibleSize.width/5, title->getPositionY()),1,1);
 	this->addChild(herohpbar,0,TAG_HERO_HPBAR);
+	herompbar = new HpBar(100,bar_type::mpbar);
+	herompbar->setHpbar(Vec2(origin.x + visibleSize.width/5,title->getPositionY()-20),0.8,0.8);
+	this->addChild(herompbar,0,TAG_HERO_MPBAR);
 
 	//计分器
 	scoreLabel = Label::create("Points: 0","Arial",24);
-	scoreLabel->setPosition(Vec2(origin.x + visibleSize.width/9, herohpbar->progressTimer->getPositionY() - herohpbar->background->getContentSize().height));
+	scoreLabel->setPosition(Vec2(origin.x + visibleSize.width/9, herompbar->progressTimer->getPositionY() - herompbar->background->getContentSize().height));
 	this->addChild(scoreLabel);
 
 	//暂停按钮
@@ -73,7 +76,7 @@ bool InformationLayer::init()
 	this->addChild(endmenu,1);
 
 	//BOSS血条
-	bosshpbar = new HpBar(300);
+	bosshpbar = new HpBar(300,bar_type::hpbar);
 	bosshpbar->setHpbar(Vec2(origin.x + visibleSize.width * 0.8, title->getPositionY()),1,1);
 	this->addChild(bosshpbar,0,TAG_BOSS_HPBAR);
 	bosshpbar->setVisible(false);

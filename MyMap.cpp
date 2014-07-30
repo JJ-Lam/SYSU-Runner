@@ -43,7 +43,7 @@ MyMap* MyMap::create(Layer* layer,int lc){
     // ±³¾°a£¬ÉèÖÃÃªµã×óÏÂ½Ç  
 	map->mapa->setAnchorPoint(Point(0, 0));
 	if(map->layerMark != FARFAR_SCENE){
-	map->mapa->setPosition(ccp(0,0)); 
+	map->mapa->setPosition(Vec2(0,0)); 
 	}
 	else
 	{
@@ -56,7 +56,7 @@ MyMap* MyMap::create(Layer* layer,int lc){
     // ±³¾°b£¬ÉèÖÃÃªµØ×óÏÂ½Ç£¬Î»ÖÃ  
 	map->mapb->setAnchorPoint(Point(0, 0));  
 	if(map->layerMark != FARFAR_SCENE){
-		map->mapb->setPosition(ccp(map->mapa->getContentSize().width,0)); 
+		map->mapb->setPosition(Vec2(map->mapa->getContentSize().width,0)); 
 	}
 	else
 	{

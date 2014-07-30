@@ -54,7 +54,6 @@ bool StageScene::init()
 	enec->initeneAction();
 	enec->retain();
 
-
 	//掉落道具
 	d = dropItem::create(this);
 	this->addChild(d);
@@ -82,7 +81,6 @@ bool StageScene::init()
 	//加载手势识别模板
 	g_r = new GeometricRecognizer;
 	g_r->loadTemplates();
-
 
 	//初始化Hero对象
 	hero = new Hero((Weapon)UserData::getInstance()->selectedWeapon);
@@ -120,15 +118,12 @@ void StageScene::update(float time){
 		auto EyeZ = camera->getEye().z;
 		camera->setEye(LastEyeX,0,EyeZ);
 		camera->setCenter(Vec3(LastEyeX ,0,0));
-		//保持主角的前进速度
-		auto sp = hero->buff == HERO_BUFF_SPEEDUP? SPEED*2 : SPEED;
-		hero->myHero->getPhysicsBody()->setVelocity(Vec2(sp,hero->myHero->getPhysicsBody()->getVelocity().y));
+
 		//清除所有飞出屏幕范围外的子弹和金币
 		b->removeUselessBullets();
 		d->Manager(hero->myHero->getPositionX(),hero->myHero->getPositionY());
 
 		//出现新地面时刷出金币和钉板
-
 		UpdateCoin();
 		UpdateNail();
 		UpdateandAddEnemy();
@@ -176,6 +171,7 @@ void StageScene::update(float time){
 		info->endmenu->setVisible(true);
 		info->pausemenu->setVisible(false);
 		this->unscheduleUpdate();
+		hero->unscheduleUpdate();
 
 		auto i = (InformationLayer*)this->getParent()->getParent()->getChildByTag(TAG_INFORMATION);
 		UserData::getInstance()->gainPoints(i->getScore());
@@ -190,6 +186,7 @@ void StageScene::update(float time){
 		info->endmenu->setVisible(true);
 		info->pausemenu->setVisible(false);
 		this->unscheduleUpdate();
+		hero->unscheduleUpdate();
 
 		auto i = (InformationLayer*)this->getParent()->getParent()->getChildByTag(TAG_INFORMATION);
 		UserData::getInstance()->gainPoints(i->getScore());
@@ -402,7 +399,7 @@ bool StageScene::onContactBegin(const PhysicsContact& contact)
 			case TAG_DROP_BLIND:
 				blind();
 				break;
-			case TAG_DROP_ENENMY:
+			case TAG_DROP_SPEEDUP:
 				hero->setBuff(HERO_BUFF_SPEEDUP);
 				break;
 			case TAG_DROP_INVINCIBLE:
