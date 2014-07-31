@@ -25,8 +25,14 @@ public:
 	Sprite* Launch(Sprite* from ,Vec2 v2);
 	Sprite* SpecialLaunch(Sprite* from, Weapon weapon, int direction = 1);
 
+	void playHitEffet(Sprite* bullet);
+	void removeHitEffet(float time);
+
 private:
-	
 	Vector<Sprite*>* bulletsVector;
+	Vector<ParticleSystemQuad*> hitEffectVector;
+
+	void initParticleEffects();
+	Vector<ParticleSystemQuad*> particleEffects;
 };
 #endif

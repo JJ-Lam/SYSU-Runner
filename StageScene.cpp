@@ -42,6 +42,14 @@ bool StageScene::init()
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+	//粒子效果
+	p = ParticleRain::create();
+	p->retain();
+	this->addChild(p,10);
+	p->setLife(4);
+	p->setTexture( Director::getInstance()->getTextureCache()->addImage("fire.png") );
+	p->setStartSize(p->getStartSize()*2);
+
 	//初始化各种变量
 	gameStatus = GAME_STATUS_PLAYING;
 
@@ -113,6 +121,10 @@ bool StageScene::init()
 void StageScene::update(float time){
 	if(gameStatus == GAME_STATUS_PLAYING || gameStatus == GAME_STATUS_BOSS)
 	{
+		Vec2 temp(Director::getInstance()->getVisibleSize().width/2,Director::getInstance()->getVisibleSize().height);
+		auto pos = this->convertToNodeSpace(temp);
+		p->setPosition(pos);
+
 		//设置相机跟随主角移动
 		auto LastEyeX = hero->myHero->getPositionX() - hero->myHero->getContentSize().width;
 		auto EyeZ = camera->getEye().z;

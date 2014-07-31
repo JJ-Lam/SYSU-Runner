@@ -73,6 +73,8 @@ private:
 	PhysicsWorld* m_world;
 	GeometricRecognizer *g_r;
 	Path2D p2d;
+
+	ParticleSystemQuad* p;
 };
 
 #endif // __GAMEMENU_H__

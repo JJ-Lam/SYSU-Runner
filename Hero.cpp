@@ -16,8 +16,8 @@ Hero::Hero(Weapon w)
 	mpRechargeEnableTime = 0;
 
 	auto cache = SpriteFrameCache::sharedSpriteFrameCache();
-	cache->addSpriteFramesWithFile();
-	_heros = SpriteBatchNode::create(PLIST_HERO);
+	cache->addSpriteFramesWithFile(PLIST_HERO);
+	//_heros = SpriteBatchNode::create(PLIST_HERO);
 	myHero = Sprite::createWithSpriteFrameName("run0.png");
 	//weapon = damageBullet;
 

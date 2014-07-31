@@ -5,6 +5,7 @@ USING_NS_CC;
 Bullet::Bullet()
 {
 	bulletsVector = new Vector<Sprite*>;
+	initParticleEffects();
 }
 
 Sprite* Bullet::Launch(Sprite* from, int direction)
@@ -28,6 +29,7 @@ Sprite* Bullet::Launch(Sprite* from, int direction)
 
 void Bullet::removeOneBullet(Sprite* bullet)
 {
+	playHitEffet(bullet);
 	auto layer = this->getParent();
 	layer->removeChild(bullet,false);
 	bulletsVector->eraseObject(bullet);
@@ -120,4 +122,29 @@ Sprite* Bullet::SpecialLaunch(Sprite* from, Weapon weapon, int direction)
 		break;
 	}
 	return launch;
+}
+
+void Bullet::playHitEffet(Sprite* bullet)
+{
+	auto hitEffect = hitEffectVector.at(bullet->getPhysicsBody()->getTag());
+	hitEffect->setPosition(bullet->getPosition());
+	this->getParent()->addChild(hitEffect);
+	//hitEffectVector.pushBack(hitEffect);
+	//scheduleOnce(schedule_selector(Bullet::removeHitEffet),1.0f);
+}
+
+void Bullet::removeHitEffet(float time)
+{
+	auto hitEffect = hitEffectVector.begin()[0];
+	hitEffect->removeFromParent();
+}
+
+void Bullet::initParticleEffects()
+{
+	//explotion for damageBullet
+	auto hitEffect = ParticleExplosion::create();
+	hitEffect->setLife(0.2);
+	hitEffect->setLifeVar(0.3);
+	hitEffect->setTextureWithRect( Director::getInstance()->getTextureCache()->addImage("explotion1.png"),Rect(78*3,0,78,59) );
+	particleEffects.insert(Weapon::damageBullet,hitEffect);
 }
