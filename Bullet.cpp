@@ -2,10 +2,17 @@
 
 USING_NS_CC;
 
+//struct BulletAndTrajectory
+//{
+//	Sprite* bullet;
+//	ParticleSystemQuad* trajectory;
+//
+//	BulletAndTrajectory(Sprite* b, ParticleSystemQuad* t){bullet = b; trajectory = t;};
+//};
+
 Bullet::Bullet()
 {
-	bulletsVector = new Vector<Sprite*>;
-	initParticleEffects();
+	scheduleUpdate();
 }
 
 Sprite* Bullet::Launch(Sprite* from, int direction)
@@ -22,7 +29,8 @@ Sprite* Bullet::Launch(Sprite* from, int direction)
 	body->setVelocity(Vec2(1000*direction,0));
 	bullet->setPhysicsBody(body);
 
-	bulletsVector->pushBack(bullet);
+	auto t = ParticleSystemQuad::create();
+	bulletsMap.insert(bullet,t);
 
 	return bullet;
 }
@@ -32,23 +40,23 @@ void Bullet::removeOneBullet(Sprite* bullet)
 	playHitEffet(bullet);
 	auto layer = this->getParent();
 	layer->removeChild(bullet,false);
-	bulletsVector->eraseObject(bullet);
+	bulletsMap.erase(bullet);
 }
 
 void Bullet::removeUselessBullets()
 {
 	auto layer = this->getParent();
-	for(Vector<Sprite*>::iterator i = bulletsVector->begin(); i != bulletsVector->end(); i++)
+	for(auto i : bulletsMap)
 	{
-		auto worldSpace = this->convertToWorldSpace(i[0]->getPosition());
+		auto worldSpace = this->convertToWorldSpace(i.first->getPosition());
 
 		if(worldSpace.x > Director::getInstance()->getWinSize().width)
 		{
-			layer->removeChild(i[0],false);
-			i = bulletsVector->erase(i);
-		}
-		if(i == bulletsVector->end())
+			layer->removeChild(i.first);
+			layer->removeChild(i.second);
+			bulletsMap.erase(i.first);
 			break;
+		}
 	}
 }
 
@@ -65,7 +73,7 @@ Sprite* Bullet::Launch(Sprite* from ,Vec2 hv){
 	bullet->setPhysicsBody(body);
 	bullet->runAction(action);
 	bullet->setTag(TAG_BULLET);
-	bulletsVector->pushBack(bullet);
+	bulletsMap.insert(bullet,NULL);
 	
 	return bullet;
 }
@@ -121,30 +129,60 @@ Sprite* Bullet::SpecialLaunch(Sprite* from, Weapon weapon, int direction)
 	default:
 		break;
 	}
+	playTrajectoryEffect(launch);
 	return launch;
 }
 
 void Bullet::playHitEffet(Sprite* bullet)
 {
-	auto hitEffect = hitEffectVector.at(bullet->getPhysicsBody()->getTag());
-	hitEffect->setPosition(bullet->getPosition());
-	this->getParent()->addChild(hitEffect);
-	//hitEffectVector.pushBack(hitEffect);
-	//scheduleOnce(schedule_selector(Bullet::removeHitEffet),1.0f);
+	switch (bullet->getPhysicsBody()->getTag())
+	{
+	case TAG_LASER:
+		{
+		break;
+		}
+	case TAG_DAMAGE:
+		{
+			auto hitEffect = ParticleExplosion::create();
+			hitEffect->setLife(0.2);
+			hitEffect->setLifeVar(0.3);
+			hitEffect->setTextureWithRect( Director::getInstance()->getTextureCache()->addImage("explotion1.png"),Rect(78*3,0,78,59) );
+			hitEffect->setStartColor(Color4F(1.0f,0.5f,0.5f,1.0f));
+			hitEffect->setStartColorVar(Color4F(0,0,0,0));
+			hitEffect->getEndColor();
+			hitEffect->setPosition(bullet->getPosition() + Vec2(30,0));
+			this->getParent()->addChild(hitEffect);
+		}
+		break;
+	case TAG_DESTROY:
+		{
+		break;
+		}
+	default:
+		{
+		break;
+		}
+	}
 }
 
-void Bullet::removeHitEffet(float time)
+void Bullet::playTrajectoryEffect(Sprite* bullet)
 {
-	auto hitEffect = hitEffectVector.begin()[0];
-	hitEffect->removeFromParent();
+	ParticleSystemQuad* trajectoryEffect = ParticleFire::create();
+	trajectoryEffect->setDuration(0.5f);
+	trajectoryEffect->setLife(0.2);
+	trajectoryEffect->setLifeVar(0.1);
+	this->getParent()->addChild(trajectoryEffect);
+	trajectoryEffect->setPosition(bullet->getPosition());
+	bulletsMap.insert(bullet,trajectoryEffect);
 }
 
-void Bullet::initParticleEffects()
+void Bullet::update(float time)
 {
-	//explotion for damageBullet
-	auto hitEffect = ParticleExplosion::create();
-	hitEffect->setLife(0.2);
-	hitEffect->setLifeVar(0.3);
-	hitEffect->setTextureWithRect( Director::getInstance()->getTextureCache()->addImage("explotion1.png"),Rect(78*3,0,78,59) );
-	particleEffects.insert(Weapon::damageBullet,hitEffect);
+	for(auto i : bulletsMap)
+	{
+		if(i.second != NULL)
+		{
+			i.second->setPosition(i.first->getPosition());
+		}
+	}
 }

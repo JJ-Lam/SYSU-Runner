@@ -56,7 +56,7 @@ void Hero::injured(int damage)
 			else
 			{
 				status = HERO_STATUS_INJURED;
-				auto seq = Sequence::create(Blink::create(1,4),CallFunc::create(CC_CALLBACK_0(Hero::injuredCallBack,this)),NULL);
+				auto seq = Sequence::create(Blink::create(1.5,4),CallFunc::create(CC_CALLBACK_0(Hero::injuredCallBack,this)),NULL);
 				myHero->runAction(seq);
 			}
 		}

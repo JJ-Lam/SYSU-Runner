@@ -26,13 +26,11 @@ public:
 	Sprite* SpecialLaunch(Sprite* from, Weapon weapon, int direction = 1);
 
 	void playHitEffet(Sprite* bullet);
-	void removeHitEffet(float time);
+	void playTrajectoryEffect(Sprite* bullet);
 
 private:
-	Vector<Sprite*>* bulletsVector;
-	Vector<ParticleSystemQuad*> hitEffectVector;
-
-	void initParticleEffects();
-	Vector<ParticleSystemQuad*> particleEffects;
+	//Vector<BulletAndTrajectory*> bulletsVector;
+	Map<Sprite*,ParticleSystemQuad*> bulletsMap;
+	void update(float time);
 };
 #endif
