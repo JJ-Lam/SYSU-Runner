@@ -2,6 +2,7 @@
 #include "StageSelectScene.h"
 #include "Shop.h"
 #include "UserData.h"
+#include "resource.h"
 
 USING_NS_CC;
 
@@ -22,31 +23,31 @@ bool GameMenu::init()
     {
         return false;
     }
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("bgm\\game\\gamemenu.wav",true);
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(GAMEMENU_WAV,true);
 
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     auto gameStart = MenuItemImage::create(
-                                           "start.png",
-                                           "start.png",
+                                           PIC_START,
+                                           PIC_START,
 										   CC_CALLBACK_1(GameMenu::gameStartCallBack,this));
 	gameStart->setPosition(Vec2(visibleSize.width/2 + 350, visibleSize.height/2 + 80));
 
 	auto gameShop = MenuItemImage::create(
-                                           "shop.png",
-                                           "shop.png",
+										   PIC_SHOP,
+                                           PIC_SHOP,
 										   CC_CALLBACK_1(GameMenu::gameShopCallBack,this));
 	gameShop->setPosition(Vec2(visibleSize.width/2 + 350, visibleSize.height/2 + origin.y ));
 
 	auto gameSetting = MenuItemImage::create(
-                                           "setting.png",
-                                           "setting.png");
+											PIC_SETTING,
+                                            PIC_SETTING);
 	gameSetting->setPosition(Vec2(visibleSize.width/2 + 350, visibleSize.height/2 + origin.y - 80));
 
 	auto gameQuit = MenuItemImage::create(
-                                           "quit.png",
-                                           "quit.png",
+											PIC_QUIT,
+											PIC_QUIT,
 										   CC_CALLBACK_0(GameMenu::gameQuitCallBack,this));
 	gameQuit->setPosition(Vec2(visibleSize.width/2 + 350, visibleSize.height/2 + origin.y - 160));
 
@@ -61,7 +62,7 @@ bool GameMenu::init()
     this->addChild(label, 1);
 	label->setVisible(false);
 
-    auto backGround = Sprite::create("menubackground.png");
+	auto backGround = Sprite::create(PIC_MENUBACKGROUND);
     backGround->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
     this->addChild(backGround, 0);
 

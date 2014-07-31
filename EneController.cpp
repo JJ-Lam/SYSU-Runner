@@ -5,7 +5,7 @@ EneController::EneController(){
 
 void EneController::initeneAction(){
 	auto cache = SpriteFrameCache::getInstance();
-	cache->addSpriteFramesWithFile("Enemy//ene.plist");
+	cache->addSpriteFramesWithFile(PLIST_ENEMY);
 	Vector<SpriteFrame*> frames(10);
 	char str[20] = {0};
 

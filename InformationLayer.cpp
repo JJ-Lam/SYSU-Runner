@@ -52,24 +52,24 @@ bool InformationLayer::init()
 	this->addChild(scoreLabel);
 
 	//暂停按钮
-	auto pause = MenuItemImage::create("buttons\\pause.png","buttons\\pause.png",CC_CALLBACK_0(InformationLayer::pause,this));
+	auto pause = MenuItemImage::create(PIC_PAUSE,PIC_PAUSE,CC_CALLBACK_0(InformationLayer::pause,this));
 	pausemenu = Menu::create(pause,NULL);
 	pausemenu->setPosition(origin.x + visibleSize.width*0.9, origin.y + visibleSize.height*0.1);
 	this->addChild(pausemenu,1);
 	
 	//暂停恢复选项
-	auto resume = MenuItemImage::create("buttons\\resume.png","buttons\\resume.png",CC_CALLBACK_0(InformationLayer::resume,this));
+	auto resume = MenuItemImage::create(PIC_RESUME,PIC_RESUME,CC_CALLBACK_0(InformationLayer::resume,this));
 	resume->setPositionX(resume->getPositionX()-50);
-	auto back = MenuItemImage::create("buttons\\home.png","buttons\\home.png",CC_CALLBACK_0(InformationLayer::backToMenu,this));
+	auto back = MenuItemImage::create(PIC_HOME,PIC_HOME,CC_CALLBACK_0(InformationLayer::backToMenu,this));
 	back->setPositionX(back->getPositionX()+50);
 	resumemenu = Menu::create(resume,back,NULL);
 	resumemenu->setVisible(false);
 	this->addChild(resumemenu,1);
 
 	//关卡结束选项
-	auto replay = MenuItemImage::create("buttons\\replay.png","buttons\\replay.png",CC_CALLBACK_0(InformationLayer::replay,this));
+	auto replay = MenuItemImage::create(PIC_REPLAY,PIC_REPLAY,CC_CALLBACK_0(InformationLayer::replay,this));
 	replay->setPosition(replay->getPositionX()-50,replay->getPositionY()-50);
-	auto back2 = MenuItemImage::create("buttons\\home.png","buttons\\home.png",CC_CALLBACK_0(InformationLayer::backToMenu,this));
+	auto back2 = MenuItemImage::create(PIC_HOME,PIC_HOME,CC_CALLBACK_0(InformationLayer::backToMenu,this));
 	back2->setPosition(back2->getPositionX()+50,back2->getPositionY()-50);
 	endmenu = Menu::create(replay,back2,NULL);
 	endmenu->setVisible(false);
@@ -82,7 +82,7 @@ bool InformationLayer::init()
 	bosshpbar->setVisible(false);
 	
 	//关卡进度条
-	auto progress = Sprite::create("hp.jpg");
+	auto progress = Sprite::create(PIC_HP);
 	progressTimer = ProgressTimer::create(progress);
 	progressTimer->setType(ProgressTimer::Type::BAR);
 	progressTimer->setMidpoint(Vec2(0,1));

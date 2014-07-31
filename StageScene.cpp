@@ -37,7 +37,7 @@ bool StageScene::init()
     {
         return false;
     }
-	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("bgm\\game\\gamescene.wav",true);
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(GAMESCENE_WAV,true);
 	
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();

@@ -28,8 +28,8 @@ bool StageSelectScene::init()
 	selectedWeapon = 0;
 
     auto gameStart = MenuItemImage::create(
-                                           "start.png",
-                                           "start.png",
+										   PIC_START,
+                                           PIC_START,
 										   CC_CALLBACK_1(StageSelectScene::gameStartCallBack,this));
 	gameStart->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/8 + origin.y));
 	auto menu = Menu::create(gameStart, NULL);

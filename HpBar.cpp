@@ -1,4 +1,5 @@
 #include "HpBar.h"
+#include "resource.h"
 
 USING_NS_CC;
 
@@ -11,10 +12,10 @@ HpBar::HpBar(int max, bar_type type)
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	if(type == bar_type::hpbar)
-		hp = Sprite::create("hp.jpg");
+		hp = Sprite::create(PIC_HP);
 	else if(type == bar_type::mpbar)
-		hp = Sprite::create("mp.jpg");
-	background = Sprite::create("barBackground.png");
+		hp = Sprite::create(PIC_MP);
+	background = Sprite::create(PIC_BARBACKGROUND);
 
 	progressTimer = ProgressTimer::create(hp);
 	progressTimer->setType(ProgressTimer::Type::BAR);

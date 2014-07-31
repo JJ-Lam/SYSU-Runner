@@ -50,7 +50,7 @@ Sprite* Coin::placeCoin()
 	if(coinsVector->size() <= 4)
 	{
 		auto layer = this->getParent();
-		auto newCoin = Sprite::create("coin.png");
+		auto newCoin = Sprite::create(PIC_COIN);
 		newCoin->runAction(RepeatForever::create(RotateBy::create(2,0,360)));
 
 		auto body = PhysicsBody::createCircle(newCoin->getContentSize().width/2);
@@ -70,13 +70,13 @@ Sprite* Coin::placeCoin()
 	return NULL;
 }
 void Coin::placecoinSquare(int col,int row,float x,float y,Layer* l){
-	//auto sb = SpriteBatchNode::create("coin.png");
+	//auto sb = SpriteBatchNode::create(PIC_COIN);
 	//layer->addChild(sb);
 	//sb->retain();
 	float baseh = y+COIN_BASEHHIGHT;
 	for(int i = 0;i<row;i++){
 		for(int j = 0;j<col;j++){
-			auto co = Sprite::create("coin.png");
+			auto co = Sprite::create(PIC_COIN);
 			auto body = PhysicsBody::createBox(co->getContentSize());
 			body->setDynamic(false);
 			body->setContactTestBitmask(0xFFFFFFFF);
@@ -91,7 +91,7 @@ void Coin::placecoinSquare(int col,int row,float x,float y,Layer* l){
 	
 }
 void Coin::placecoinPoint(float x,float y){
-	auto co = Sprite::create("coin.png");
+	auto co = Sprite::create(PIC_COIN);
 }
 int Coin::typeSelector(){
 	int ret = 0;
@@ -100,12 +100,12 @@ int Coin::typeSelector(){
 }
 void Coin::placecoinLine(Vec2 posStart,Vec2 posEnd){
 	int coinCount = 0;
-	//auto sb = SpriteBatchNode::create("coin.png");
+	//auto sb = SpriteBatchNode::create(PIC_COIN);
 	//layer->addChild(sb);
 	coinCount = (int)((posEnd.x-posStart.x)/(coinSize.width+COIN_INTER)+1);
 	float eachY = (posEnd.y-posStart.y)/(coinCount-1);
 	for(int i = 0;i<coinCount;i++){
-		auto co = Sprite::create("coin.png");
+		auto co = Sprite::create(PIC_COIN);
 		auto body = PhysicsBody::createBox(co->getContentSize());
 		body->setDynamic(false);
 		body->setContactTestBitmask(0xFFFFFFFF);

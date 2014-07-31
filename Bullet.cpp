@@ -9,7 +9,7 @@ Bullet::Bullet()
 
 Sprite* Bullet::Launch(Sprite* from, int direction)
 {
-	auto bullet = Sprite::create("weapon/bullet.png");
+	auto bullet = Sprite::create(PIC_NORMALBULLET);
 	bullet->setPosition(from->getPositionX() + 1.2*direction*from->getContentSize().width/2, from->getPositionY());
 	bullet->setTag(TAG_BULLET);
 	//bullet->runAction(MoveBy::create(1,Vec2(2000,0)));
@@ -79,7 +79,7 @@ Sprite* Bullet::SpecialLaunch(Sprite* from, Weapon weapon, int direction)
 		break;
 	case laser:
 		{
-			launch = Sprite::create("weapon/laser.png");
+			launch = Sprite::create(PIC_LASER);
 			launch->setPosition(from->getPositionX() + direction*from->getContentSize().width, from->getPositionY());
 			launch->setTag(TAG_BULLET);
 			auto body = PhysicsBody::createBox(launch->getContentSize());
@@ -92,7 +92,7 @@ Sprite* Bullet::SpecialLaunch(Sprite* from, Weapon weapon, int direction)
 		}
 	case damageBullet:
 		{
-			launch = Sprite::create("weapon/damageBullet.png");
+			launch = Sprite::create(PIC_DAMAGEBULLET);
 			launch->setPosition(from->getPositionX() + direction*from->getContentSize().width, from->getPositionY());
 			launch->setTag(TAG_BULLET);
 			auto body = PhysicsBody::createBox(launch->getContentSize());
@@ -105,7 +105,7 @@ Sprite* Bullet::SpecialLaunch(Sprite* from, Weapon weapon, int direction)
 		}
 	case destroyBullet:
 		{
-			launch = Sprite::create("weapon/destroyBullet.png");
+			launch = Sprite::create(PIC_DESTROYBULLET);
 			launch->setPosition(from->getPositionX() + direction*from->getContentSize().width, from->getPositionY());
 			launch->setTag(TAG_BULLET);
 			auto body = PhysicsBody::createBox(launch->getContentSize());

@@ -7,7 +7,7 @@ dropItem* dropItem::create(Layer* l){
 	dropItem* di = new dropItem();
 	di->mark = 0;
 	auto cache = SpriteFrameCache::getInstance();
-	cache->addSpriteFramesWithFile("dropItem//drop.plist");
+	cache->addSpriteFramesWithFile(PLIST_DROPITEM);
 	di->layer = l;
 	return di;
 }

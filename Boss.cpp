@@ -13,7 +13,7 @@ Boss::Boss(Layer* l, Bullet* b)
 	this->layer = l;
 	this->bullet = b;
 
-	boss = Sprite::create("boss.png");
+	boss = Sprite::create(PIC_BOSS);
 	boss->setPosition(Vec2(layer->getChildByTag(TAG_HERO)->getPositionX() + visibleSize.width - boss->getContentSize().width*2, visibleSize.height/2));
 
 	auto body = PhysicsBody::createBox(boss->getContentSize());
