@@ -10,6 +10,7 @@ private:
 	Layer* layer;
 	Vec2 posStart;
 	Vec2 posEnd;
+	float nail_Block;
 public:
 	Nail(Layer* l);
 	Vector<Sprite*> curNailList;

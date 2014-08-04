@@ -12,7 +12,7 @@ public :
 	Layer* layer;
 
 	dropItem(){};
-
+	float dropMark;
 	static dropItem* create(Layer* l);
 	
 	bool Isdropitem();

@@ -28,6 +28,8 @@ private:
     virtual void onTouchMoved(Touch* touch, Event* event);
     virtual void onTouchEnded(Touch* touch, Event* event);
 
+	void returnToGameMenu(Ref* pSender);
+
 	void weaponMenuCallBack(Object* sender);
 
 	ScrollView* scrollview;

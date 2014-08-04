@@ -12,20 +12,20 @@ private:
 
 	int totalPoints;
 	int unlockStage;
-	int unlockWeapon;	//三位二进制表示三种武器当前是否解锁，1（001）表示damageBullet，2（010）表示destroyBullet，4（100）表示laser
 	
 public:
 	static UserData* getInstance();
 	int getPoints(){return totalPoints;};
 	int getUnlockStages(){return unlockStage;};
-	int getUnlockWeapon(){return unlockWeapon;};
 
 	int stageCount;
 	int selectedWeapon;
+	int WeaponMark[3];//解锁武器标记，第一个元素镭射，第二个元素双倍，第三个击碎
 
 	void gainPoints(int points);
 	void unlockNewStage();
 	void saveData();
+	bool unlockNewWeapon(int weaponType);
 };
 
 #endif

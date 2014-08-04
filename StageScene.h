@@ -24,6 +24,8 @@ class StageScene : public cocos2d::Layer
 public:
     static cocos2d::Scene* createScene();
 
+	/*~StageScene();*/
+
 	virtual bool init();
     
 	CREATE_FUNC(StageScene);
@@ -36,7 +38,7 @@ public:
 
 	bool onContactBegin(const PhysicsContact& contact);
 
-	void setPhyWorld(PhysicsWorld* world){m_world = world;}
+	//void setPhyWorld(PhysicsWorld* world){m_world = world;}
 
 	virtual void update(float time);
 
@@ -54,6 +56,7 @@ public:
 	void blindRecover(float time);
 
 	float startPosition, currentPosition, totalDistance;
+	virtual void onExit();
 
 private:
 	Hero *hero;
@@ -75,6 +78,7 @@ private:
 	Path2D p2d;
 
 	ParticleSystemQuad* p;
+	EventListenerTouchOneByOne* listener;
 };
 
 #endif // __GAMEMENU_H__

@@ -1,15 +1,17 @@
 #include "Nail.h"
-
+#include "UserData.h"
 Nail::Nail(Layer* l){
-	srand(unsigned(time(0)));
 	layer = l;
+	auto ud = UserData::getInstance();
+	nail_Block = 2500-(500*ud->stageCount);
 }
 
 void Nail::Manager(Vec2 s,Vec2 e){
 	int nailCount = 0;
 	int tmp = 0;
-	nailCount = (int)(e.x-s.x)/NAIL_BLOCK;
-	float eacheX = ((e.x-s.x)-(nailCount*NAIL_BLOCK))/nailCount+NAIL_BLOCK;
+	
+	nailCount = (int)(e.x-s.x)/nail_Block;
+	float eacheX = ((e.x-s.x)-(nailCount*nail_Block))/nailCount+nail_Block;
 	for(int i = 0;i < nailCount;i++){
 		float x = posSelect(eacheX);
 		float xx = x+s.x+i*eacheX;

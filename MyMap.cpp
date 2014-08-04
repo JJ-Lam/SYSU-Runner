@@ -1,6 +1,7 @@
 #include "MyMap.h"
 #include "resource.h"
 #include "Hero.h"
+#include "UserData.h"
 USING_NS_CC;
 
 MyMap::MyMap(){
@@ -10,14 +11,31 @@ MyMap::MyMap(){
 }
 MyMap* MyMap::create(Layer* layer,int lc){
 	MyMap* map = new MyMap();
+	auto ud = UserData::getInstance();
+	if(ud->stageCount == 1){
+		map->PIC_MID = "background/stage1/1.png";
+		map->PIC_FAR = "background/stage1/2.png";
+		map->PIC_FARFAR = "background/stage1/3.png";
+		map->BG_PIC[0] = map->PIC_MID;
+		map->BG_PIC[1] = map->PIC_FAR;
+		map->BG_PIC[2] = map->PIC_FARFAR;
+	}
+	if(ud->stageCount == 2){
+		map->PIC_MID = "background/stage2/1.png";
+		map->PIC_FAR = "background/stage2/2.png";
+		map->PIC_FARFAR = "background/stage2/3.png";
+		map->BG_PIC[0] = map->PIC_MID;
+		map->BG_PIC[1] = map->PIC_FAR;
+		map->BG_PIC[2] = map->PIC_FARFAR;
+	}
 	map->curMaplist.clear();
 	map->mlayer = layer;
 	map->curMap = 0;
 	map->layerMark = lc;
 	auto si = Director::getInstance()->getWinSize();
 	if(lc == MID_SCENE){
-		map->mapa = Sprite::create(PIC_MID);  
-		map->mapb = Sprite::create(PIC_MID); 
+		map->mapa = Sprite::create(map->PIC_MID);  
+		map->mapb = Sprite::create(map->PIC_MID); 
 		map->mapb->setFlippedX(true);
 	/*	auto paraMove = MoveBy::create(2,Vec2(MID_RATE*SPEED*2,0));
 		
@@ -26,8 +44,8 @@ MyMap* MyMap::create(Layer* layer,int lc){
 	}
 	if (lc == FAR_SCENE)
 	{
-		map->mapa = Sprite::create(PIC_FAR);  
-		map->mapb = Sprite::create(PIC_FAR);  
+		map->mapa = Sprite::create(map->PIC_FAR);  
+		map->mapb = Sprite::create(map->PIC_FAR);  
 		map->mapb->setFlippedX(true);
 		//auto paraMove = MoveBy::create(2,Vec2(FAR_RATE*SPEED*2,0));
 		//auto seq =Sequence::create(paraMove,NULL);
@@ -36,14 +54,15 @@ MyMap* MyMap::create(Layer* layer,int lc){
 	}
 	if (lc == FARFAR_SCENE)
 	{
-		map->mapa = Sprite::create(PIC_FARFAR);  
-		map->mapb = Sprite::create(PIC_FARFAR);  
+		map->mapa = Sprite::create(map->PIC_FARFAR);  
+		map->mapb = Sprite::create(map->PIC_FARFAR);  
 		map->mapb->setFlippedX(true);
 	}
+	
     // ±³¾°a£¬ÉèÖÃÃªµã×óÏÂ½Ç  
 	map->mapa->setAnchorPoint(Point(0, 0));
 	if(map->layerMark != FARFAR_SCENE){
-	map->mapa->setPosition(Vec2(0,0)); 
+	map->mapa->setPosition(ccp(0,0)); 
 	}
 	else
 	{
@@ -56,7 +75,7 @@ MyMap* MyMap::create(Layer* layer,int lc){
     // ±³¾°b£¬ÉèÖÃÃªµØ×óÏÂ½Ç£¬Î»ÖÃ  
 	map->mapb->setAnchorPoint(Point(0, 0));  
 	if(map->layerMark != FARFAR_SCENE){
-		map->mapb->setPosition(Vec2(map->mapa->getContentSize().width,0)); 
+		map->mapb->setPosition(ccp(map->mapa->getContentSize().width,0)); 
 	}
 	else
 	{

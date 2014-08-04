@@ -2,6 +2,7 @@
 #include "InformationLayer.h"
 #include "Resource.h"
 
+
 Scene* StageScene::createScene()
 {
 	srand(unsigned(time(0)));
@@ -12,11 +13,12 @@ Scene* StageScene::createScene()
 	auto bigScene = Scene::create();
 
 	auto scene = Scene::createWithPhysics();
+	auto p = scene->getPhysicsWorld();
 	//scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	scene->getPhysicsWorld()->setGravity(Vect(0,GRAVITY));
 
     auto layer = StageScene::create();
-	layer->setPhyWorld(scene->getPhysicsWorld());
+	//layer->setPhyWorld(scene->getPhysicsWorld());
 	auto informationLayer = InformationLayer::create();
 
 	layer->camera = new ActionCamera();
@@ -25,6 +27,12 @@ Scene* StageScene::createScene()
     scene->addChild(layer,0,TAG_STAGESCENE);
 	bigScene->addChild(scene,0,1);
 	bigScene->addChild(informationLayer,2,TAG_INFORMATION);
+
+	auto ud = UserData::getInstance();
+	layer->m1 = MyMap::create(layer,MID_SCENE);
+	layer->m2 = MyMap::create(layer,FAR_SCENE);
+	layer->m3 =MyMap::create(layer,FARFAR_SCENE);
+	
 
 	bigScene->retain();
 
@@ -37,6 +45,8 @@ bool StageScene::init()
     {
         return false;
     }
+	stageBoss = NULL;
+
 	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(GAMESCENE_WAV,true);
 	
     Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -44,7 +54,6 @@ bool StageScene::init()
 
 	//粒子效果
 	p = ParticleRain::create();
-	p->retain();
 	this->addChild(p,10);
 	p->setLife(4);
 	p->setTexture( Director::getInstance()->getTextureCache()->addImage("fire.png") );
@@ -69,7 +78,7 @@ bool StageScene::init()
 
 	c = new Coin(this);
 	this->addChild(c);
-	this->retain();
+	//this->retain();
 	c->setTag(TAG_COIN_CLASSS);
 	c->retain();
 
@@ -79,9 +88,9 @@ bool StageScene::init()
 	o->retain();
 
 	//三层背景
-	m1 = MyMap::create(this,MID_SCENE);
+	/*m1 = MyMap::create(this,MID_SCENE);
 	m2 = MyMap::create(this,FAR_SCENE);
-	m3 =MyMap::create(this,FARFAR_SCENE); 
+	m3 =MyMap::create(this,FARFAR_SCENE); */
 	
 	//钉子
 	na = new Nail(this);
@@ -97,12 +106,14 @@ bool StageScene::init()
 	this->addChild(hero);
 	hero->setTag(TAG_HERO_CLASS);
 	this->addChild(hero->myHero,1,TAG_HERO);
+	hero->retain();
+
 	startPosition = hero->myHero->getPositionX();
 	totalDistance = 10000;
 
 	//触摸事件监听
 	auto dispatcher = Director::getInstance()->getEventDispatcher();
-	auto listener = EventListenerTouchOneByOne::create();
+	listener = EventListenerTouchOneByOne::create();
 	listener->onTouchBegan = CC_CALLBACK_2(StageScene::onTouchBegan, this);
 	listener->onTouchMoved = CC_CALLBACK_2(StageScene::onTouchMoved, this);
 	listener->onTouchEnded = CC_CALLBACK_2(StageScene::onTouchEnded, this);
@@ -146,6 +157,7 @@ void StageScene::update(float time){
 		m1->mapupdate(hero->myHero->getPositionX());
 		m2->mapupdate(hero->myHero->getPositionX());
 		m3->mapupdate(hero->myHero->getPositionX());
+		
 		//检测主角是否掉落
 		if(hero->fallen())
 			hero->bringBackToGround();
@@ -271,6 +283,10 @@ void StageScene::UpdateandAddEnemy(){
 		float eachb = o->nextLength/eneCount;
 		for(int i = 0;i<eneCount;i++){
 			float xx = s->getPositionX()+i*eachb+eachb*CCRANDOM_0_1();
+			if(xx>s->getPositionX()+o->nextLength-200)
+			{
+				xx = s->getPositionX()+o->nextLength-200;
+			}
 			Enemy* ee = new Enemy(Vec2(xx,s->getPositionY()),ENE_GROUND_ACT,this);
 			this->addChild(ee,3);
 			ee->addEnemy();
@@ -381,17 +397,25 @@ bool StageScene::onContactBegin(const PhysicsContact& contact)
 				b->removeOneBullet(spriteA);
 
 		}
-
+		
 		//主角与金币碰撞，增加积分
 		else if(spriteA->getTag() == TAG_HERO && spriteB->getTag() == TAG_COIN || spriteB->getTag() == TAG_HERO && spriteA->getTag() == TAG_COIN)
 		{
 			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(GETCOIN_WAV);
 			if(spriteA->getTag() == TAG_COIN)
+			{
 				c->removeOneCoin(spriteA);
+			}
 			else
+			{
+				/*auto s3 = (Scene*)(this->getParent());
+				PhysicsWorld* pw = s3->getPhysicsWorld();
+				Vector<PhysicsBody*> wc = pw->getAllBodies();*/
 				c->removeOneCoin(spriteB);
+			}
 			auto info = (InformationLayer*)Director::getInstance()->getRunningScene()->getChildByTag(TAG_INFORMATION);
 			info->changeScore(10);
+			
 		}
 		else if(spriteA->getTag() == TAG_HERO && spriteB->getTag() == TAG_NAIL || spriteB->getTag() == TAG_HERO && spriteA->getTag() == TAG_NAIL)
 		{
@@ -406,12 +430,14 @@ bool StageScene::onContactBegin(const PhysicsContact& contact)
 			switch(spriteB->getTag())
 			{
 			case TAG_DROP_HEAL:
+				CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(HEAL_MP3);
 				hero->heal(30);
 				break;
 			case TAG_DROP_BLIND:
 				blind();
 				break;
 			case TAG_DROP_SPEEDUP:
+				CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(SPEEDUP_MP3);
 				hero->setBuff(HERO_BUFF_SPEEDUP);
 				break;
 			case TAG_DROP_INVINCIBLE:
@@ -426,4 +452,45 @@ bool StageScene::onContactBegin(const PhysicsContact& contact)
 			this->removeChild(spriteB);
 		}
 		return true;
+}
+
+//StageScene::~StageScene()
+//{
+//	this->getParent()->getParent()->release();
+//	p->release();
+//	b->release();
+//	enec->release();
+//	d->release();
+//	c->release();
+//	//this->release();
+//	o->release();
+//	if(stageBoss != NULL)
+//	{
+//		stageBoss->release();
+//	}
+//	
+//	auto scene = (Scene*)this->getParent();
+//	scene->getPhysicsWorld()->removeAllBodies();
+//}
+
+void StageScene::onExit()
+{
+	Layer::onExit();
+	this->getParent()->getParent()->release();
+	hero->release();
+	b->release();
+	enec->release();
+	d->release();
+	c->release();
+	//this->release();
+	o->release();
+	if(stageBoss != NULL)
+	{
+		stageBoss->release();
+	}
+	auto scene = (Scene*)this->getParent();
+	scene->getPhysicsWorld()->removeAllBodies();
+
+	auto dispatcher = Director::getInstance()->getEventDispatcher();
+	dispatcher->removeEventListener(listener);
 }

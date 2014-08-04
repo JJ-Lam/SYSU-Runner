@@ -4,6 +4,12 @@
 #include "cocos2d.h"
 USING_NS_CC;
 
+enum MyEnum
+{
+	TAG_LASER_BUTTON = 0,
+	TAG_DAMAGE_BUTTON = 1,
+	TAG_DESTROY_BUTTON = 2
+};
 class Shop : public cocos2d::Layer
 {
 	public:
@@ -12,11 +18,15 @@ class Shop : public cocos2d::Layer
 	virtual bool init();  
 
 	void returnToGameMenu(Ref* pSender);
-	void Bought(Ref* pSender);
+	void Bought(Ref* sender);
 	void returnToShop(Ref* pSender);
-	void Confirm(Ref* pSender);
+	void Confirm(Ref* sender);
     
 	CREATE_FUNC(Shop);
+
+private:
+	int weaponPrice[3];
+	//record the price
 };
 
 #endif

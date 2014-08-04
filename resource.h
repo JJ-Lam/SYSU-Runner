@@ -5,6 +5,7 @@ USING_NS_CC;
 using namespace std;
 
 static const int TAG_OBSTALCE = 890;
+static const int TAG_OB_BANDING = 287;
 //Banding障碍物
 static const int OB_BANDING = 88;
 static const int BANDING_HEIGHT = 80;
@@ -58,7 +59,7 @@ static const int GROUND_MIN_INTERVAL = 1900;           //最大最小间隔
 static const int GROUND_MAX_INTERVAL = 2600;
 static const int GROUND_MIN_LENGTH = 2500;			//最大最小长度
 static const int GROUND_MAX_LENGTH = 4000;
-static const float GROUND_HHH = 75;
+static const float GROUND_PICH = 75;
 //Map 刷新
 static const int TAG_MAP = 111;
 
@@ -145,8 +146,10 @@ static const int TAG_STAGECLEAR = 346;
 static const char* JUMP_WAV = "bgm/hero/jump.wav";
 static const char* GETCOIN_WAV = "bgm/hero/getcoin.wav";
 static const char* BULLET_WAV = "bgm/hero/shoot.wav";
-static const char* GAMEMENU_WAV = "bgm/game/gamemenu.wav";
-static const char* GAMESCENE_WAV = "bgm/game/gamescene.wav";
+static const char* GAMEMENU_WAV = "bgm/menubgm.mp3";
+static const char* GAMESCENE_WAV = "bgm/run.mp3";
+static const char* HEAL_MP3 = "bgm/heal.mp3";
+static const char* SPEEDUP_MP3 = "bgm/speedup.mp3";
 
 static const string WEAPON_BUTTONS[4] = {"weapon/bulletButton.png","weapon/damageButton.png","weapon/destroyButton.png","weapon/laserButton.png"};
 static const string PIC_BANDING = "Obst/banding.png";
@@ -171,7 +174,7 @@ static const string PIC_START = "start.png";
 static const string PIC_SHOP = "shop.png";
 static const string PIC_SETTING = "setting.png";
 static const string PIC_QUIT = "quit.png";
-static const string PIC_MENUBACKGROUND = "menubackground.png";
+static const string PIC_MENUBACKGROUND = "menuBackground.png";
 static const string PIC_PAUSE = "buttons/pause.png";
 static const string PIC_RESUME = "buttons/resume.png";
 static const string PIC_HOME = "buttons/home.png";
@@ -181,5 +184,6 @@ static const string PIC_BOSS = "boss.png";
 static const string PLIST_DROPITEM = "dropItem/drop.plist";
 static const string PLIST_ENEMY = "Enemy/ene.plist";
 static const string PLIST_HERO = "Hero/hero.plist";
+static const string PIC_BUY = "shop/coin.png";
 
 #endif

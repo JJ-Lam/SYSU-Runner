@@ -21,6 +21,10 @@ public:
 	Vector<Sprite*> curMaplist;
 private:
 	Sprite* lastMap;
+	std::string PIC_MID;
+	std::string PIC_FAR; 
+	std::string PIC_FARFAR;
+	std::string BG_PIC[3];
 };
 
 

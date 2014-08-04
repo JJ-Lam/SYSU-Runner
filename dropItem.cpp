@@ -1,5 +1,6 @@
 #include "dropItem.h"
 #include "cocos2d.h"
+#include "UserData.h"
 USING_NS_CC;
 
 
@@ -9,11 +10,12 @@ dropItem* dropItem::create(Layer* l){
 	auto cache = SpriteFrameCache::getInstance();
 	cache->addSpriteFramesWithFile(PLIST_DROPITEM);
 	di->layer = l;
+	di->dropMark = UserData::getInstance()->stageCount*1500;
 	return di;
 }
 
 bool dropItem::Isdropitem(){
-	if(hx - mark >3000){
+	if(hx - mark >dropMark){
 		mark = hx;
 		return true;
 	}
@@ -40,7 +42,7 @@ void dropItem::drop(){
 			//body->setCollisionBitmask(NO_COLLISION_MASK);
 			body->setContactTestBitmask(0xFFFFFFFF);
 			tdi->setPosition(Vec2(hx+size.width*1.4,size.height));
-			body->applyForce(Vec2(0,body->getMass()*(-1)*0.8*GRAVITY));
+			body->applyForce(Vec2(0,body->getMass()*(-1)*0.9*GRAVITY));
 			tdi->setPhysicsBody(body);
 			layer->addChild(tdi,0,type);
 			curdropItemlist.pushBack(tdi);
@@ -53,7 +55,7 @@ void dropItem::drop(){
 			//body->setCollisionBitmask(NO_COLLISION_MASK);
 			body->setContactTestBitmask(0xFFFFFFFF);
 			tdi->setPosition(Vec2(hx+size.width*1.4,size.height));
-			body->applyForce(Vec2(0,body->getMass()*(-1)*0.8*GRAVITY));
+			body->applyForce(Vec2(0,body->getMass()*(-1)*0.9*GRAVITY));
 			tdi->setPhysicsBody(body);
 			layer->addChild(tdi,0,type);
 			curdropItemlist.pushBack(tdi);
@@ -66,7 +68,7 @@ void dropItem::drop(){
 			//body->setCollisionBitmask(NO_COLLISION_MASK);
 			body->setContactTestBitmask(0xFFFFFFFF);
 			tdi->setPosition(Vec2(hx+size.width*1.4,size.height));
-			body->applyForce(Vec2(0,body->getMass()*(-1)*0.8*GRAVITY));
+			body->applyForce(Vec2(0,body->getMass()*(-1)*0.9*GRAVITY));
 			tdi->setPhysicsBody(body);
 			layer->addChild(tdi,0,type);
 			curdropItemlist.pushBack(tdi);
@@ -79,7 +81,7 @@ void dropItem::drop(){
 			//body->setCollisionBitmask(NO_COLLISION_MASK);
 			body->setContactTestBitmask(0xFFFFFFFF);
 			tdi->setPosition(Vec2(hx+size.width*1.4,size.height));
-			body->applyForce(Vec2(0,body->getMass()*(-1)*0.8*GRAVITY));
+			body->applyForce(Vec2(0,body->getMass()*(-1)*0.9*GRAVITY));
 			tdi->setPhysicsBody(body);
 			layer->addChild(tdi,0,type);
 			curdropItemlist.pushBack(tdi);
@@ -92,7 +94,7 @@ void dropItem::drop(){
 			//body->setCollisionBitmask(NO_COLLISION_MASK);
 			body->setContactTestBitmask(0xFFFFFFFF);
 			tdi->setPosition(Vec2(hx+size.width,size.height));
-			body->applyForce(Vec2(0,body->getMass()*(-1)*0.8*GRAVITY));
+			body->applyForce(Vec2(0,body->getMass()*(-1)*0.9*GRAVITY));
 			tdi->setPhysicsBody(body);
 			layer->addChild(tdi,0,type);
 			curdropItemlist.pushBack(tdi);

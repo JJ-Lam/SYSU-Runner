@@ -32,24 +32,24 @@ bool GameMenu::init()
                                            PIC_START,
                                            PIC_START,
 										   CC_CALLBACK_1(GameMenu::gameStartCallBack,this));
-	gameStart->setPosition(Vec2(visibleSize.width/2 + 350, visibleSize.height/2 + 80));
+	gameStart->setPosition(Vec2(visibleSize.width/2 , visibleSize.height/2 ));
 
 	auto gameShop = MenuItemImage::create(
 										   PIC_SHOP,
                                            PIC_SHOP,
 										   CC_CALLBACK_1(GameMenu::gameShopCallBack,this));
-	gameShop->setPosition(Vec2(visibleSize.width/2 + 350, visibleSize.height/2 + origin.y ));
+	gameShop->setPosition(Vec2(visibleSize.width/2, visibleSize.height/2 + origin.y-80 ));
 
 	auto gameSetting = MenuItemImage::create(
 											PIC_SETTING,
                                             PIC_SETTING);
-	gameSetting->setPosition(Vec2(visibleSize.width/2 + 350, visibleSize.height/2 + origin.y - 80));
+	gameSetting->setPosition(Vec2(visibleSize.width/2 , visibleSize.height/2 + origin.y - 160));
 
 	auto gameQuit = MenuItemImage::create(
 											PIC_QUIT,
 											PIC_QUIT,
 										   CC_CALLBACK_0(GameMenu::gameQuitCallBack,this));
-	gameQuit->setPosition(Vec2(visibleSize.width/2 + 350, visibleSize.height/2 + origin.y - 160));
+	gameQuit->setPosition(Vec2(visibleSize.width/2 , visibleSize.height/2 + origin.y - 240));
 
 	auto menu = Menu::create(gameStart, gameShop, gameSetting, gameQuit, NULL);
     menu->setPosition(Vec2::ZERO);

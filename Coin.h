@@ -29,7 +29,7 @@ public:
 
 	void placecoinArrow(Vec2 pstart,Vec2 pend);
 private:
-	Vector<Sprite*>* coinsVector;
+	Vector<Sprite*> coinsVector;
 	int typeSelector();
 	Layer* layer;
 	float calX(int x);

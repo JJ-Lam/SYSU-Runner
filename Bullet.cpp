@@ -78,6 +78,7 @@ Sprite* Bullet::Launch(Sprite* from ,Vec2 hv){
 	return bullet;
 }
 
+//根据武器类型发射子弹
 Sprite* Bullet::SpecialLaunch(Sprite* from, Weapon weapon, int direction)
 {
 	auto visibleWidth = Director::getInstance()->getVisibleSize().width;
@@ -117,11 +118,12 @@ Sprite* Bullet::SpecialLaunch(Sprite* from, Weapon weapon, int direction)
 		{
 			launch = Sprite::create(PIC_DESTROYBULLET);
 			launch->setPosition(from->getPositionX() + direction*from->getContentSize().width, from->getPositionY());
+			launch->setScale(0.5);
 			launch->setTag(TAG_BULLET);
-			auto body = PhysicsBody::createBox(launch->getContentSize());
+			auto body = PhysicsBody::createBox(launch->getContentSize()/2);
 			body->setCollisionBitmask(NO_COLLISION_MASK);
 			body->setContactTestBitmask(0xFFFFFFFF);
-			body->setVelocity(Vec2(800*direction,0));
+			body->setVelocity(Vec2(1500*direction,0));
 			body->setTag(TAG_DESTROY);
 			launch->setPhysicsBody(body);
 			break;
@@ -133,6 +135,7 @@ Sprite* Bullet::SpecialLaunch(Sprite* from, Weapon weapon, int direction)
 	return launch;
 }
 
+//子弹击中特效
 void Bullet::playHitEffet(Sprite* bullet)
 {
 	switch (bullet->getPhysicsBody()->getTag())
@@ -165,17 +168,19 @@ void Bullet::playHitEffet(Sprite* bullet)
 	}
 }
 
+//子弹弹道特效
 void Bullet::playTrajectoryEffect(Sprite* bullet)
 {
 	ParticleSystemQuad* trajectoryEffect = ParticleFire::create();
 	trajectoryEffect->setDuration(0.5f);
-	trajectoryEffect->setLife(0.2);
-	trajectoryEffect->setLifeVar(0.1);
+	trajectoryEffect->setLife(0.3);
+	trajectoryEffect->setLifeVar(0.2);
 	this->getParent()->addChild(trajectoryEffect);
 	trajectoryEffect->setPosition(bullet->getPosition());
 	bulletsMap.insert(bullet,trajectoryEffect);
 }
 
+//弹道跟随子弹
 void Bullet::update(float time)
 {
 	for(auto i : bulletsMap)

@@ -32,9 +32,14 @@ bool StageSelectScene::init()
                                            PIC_START,
 										   CC_CALLBACK_1(StageSelectScene::gameStartCallBack,this));
 	gameStart->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/8 + origin.y));
-	auto menu = Menu::create(gameStart, NULL);
+	
+
+	auto returnBack = MenuItemImage::create("back.png", "back.png", CC_CALLBACK_1(StageSelectScene::returnToGameMenu, this));
+	returnBack->setPosition(Vec2(visibleSize.width * 0.85f, visibleSize.height * 0.1f));
+
+	auto menu = Menu::create(gameStart, returnBack, NULL);
     menu->setPosition(Vec2::ZERO);
-    this->addChild(menu);
+    this->addChild(menu,1);
     
 	auto content = "select a stage and choose your weapon";
 	auto label = LabelTTF::create(content, "Arial", 24);  
@@ -42,9 +47,9 @@ bool StageSelectScene::init()
                             origin.y + visibleSize.height - label->getContentSize().height));
     this->addChild(label, 1);
 
-   /* auto backGround = Sprite::create("HelloWorld.png");
+    auto backGround = Sprite::create("bg.png");
     backGround->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-    this->addChild(backGround, 0);*/
+    this->addChild(backGround, 0);
 
 	Layer* containerLayer = Layer::create();
 	containerLayer->setAnchorPoint(Vec2(0,0));
@@ -83,6 +88,22 @@ bool StageSelectScene::init()
 	auto weapon = Menu::create(normal,damage,destroy,laser,NULL);
 	weapon->setPositionY(weapon->getPositionY()-130);
 	weapon->setTag(10);
+	auto u = UserData::getInstance();
+	if(u->WeaponMark[0] == 0)
+	{
+		laser->setEnabled(false);
+		laser->setColor(Color3B(0,0,0));
+	}
+	if(u->WeaponMark[1] == 0)
+	{
+		damage->setEnabled(false);
+		damage->setColor(Color3B(0,0,0));
+	}
+	if(u->WeaponMark[2] == 0)
+	{
+		destroy->setEnabled(false);
+		destroy->setColor(Color3B(0,0,0));
+	}
 	this->addChild(weapon);
 
 	auto listener = EventListenerTouchOneByOne::create();
@@ -147,4 +168,9 @@ void StageSelectScene::weaponMenuCallBack(Object* sender)
 		if(weapon->getChildByTag(i)->getScale() != 1)
 			weapon->getChildByTag(i)->runAction(ScaleTo::create(0.2,1));
 	}
+}
+
+void StageSelectScene::returnToGameMenu(Ref* pSender)
+{
+	Director::getInstance()->replaceScene(GameMenu::createScene());
 }

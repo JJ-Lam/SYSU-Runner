@@ -1,6 +1,6 @@
 #include "cocos2d.h"
 #include "Obstacle.h"
-
+#include "UserData.h"
 USING_NS_CC;
 
 Obstacle::Obstacle(){
@@ -8,7 +8,6 @@ Obstacle::Obstacle(){
 	timeController = 0;
 	startPos = 0;
 	groundPos = 0;
-	
 }
 
 Obstacle*  Obstacle::create(Layer* l){
@@ -25,21 +24,14 @@ Obstacle*  Obstacle::create(Layer* l){
 
 	mob->curLength = mob->setLength();
 
-	//mob->na = new Nail(l);
-	//mob->na->Manager(ground->getPosition(),Vec2(ground->getPositionX()+mob->curLength,groundHeight));
 	auto bo = PhysicsBody::createEdgeSegment(Point(0,0),Point(mob->curLength,0),PHYSICSBODY_MATERIAL_DEFAULT);
 	auto ground = Sprite::create();
 	ground->setPosition(Point(0,groundHeight));
 	ground->setPhysicsBody(bo);
 	ground->setTag(TAG_GROUND);
 	l->addChild(ground);
-	//mob->ec = new EneController();
-	//mob->ec->initeneAction();
-	//mob->ee = new Enemy(Vec2(ground->getPositionX()+800,groundHeight),100,mob->layer);
 	
-	//mob->na = new Nail(l);
-	//mob->na->Manager(ground->getPosition(),Vec2(ground->getPositionX()+mob->curLength,groundHeight));
-	auto ground_pic = Sprite::create(PIC_GROUND,Rect(0,0,mob->curLength,GROUND_HHH));
+	auto ground_pic = Sprite::create(PIC_GROUND,Rect(0,0,mob->curLength,GROUND_PICH));
 	ground_pic->setAnchorPoint(Vec2(0,1));
 	ground_pic->setPosition(ground->getPosition());
 	l->addChild(ground_pic,1);
@@ -166,10 +158,12 @@ bool Obstacle::isBandingob(){
 	return false;
 }
 void Obstacle::addBandingob(float pos,float distance){
-	float lastd = 200;
+	auto ud = UserData::getInstance();
+	float lastd = 200*(0.8+ud->stageCount/10);
 	float newDistance = distance-lastd;
 	int bCount = 0;
-	bCount = newDistance/BANDING_BLOCK;
+	float block = BANDING_BLOCK*(0.8+ud->stageCount/10);
+	bCount = newDistance/block;
 	float eachBlock = newDistance/bCount;
 
 	float baseHeight = groundHeight;
@@ -192,13 +186,9 @@ void Obstacle::addBandingob(float pos,float distance){
 		}
 
 		auto banding = Sprite::create(PIC_BANDING,Rect(0,0,BAND_WITDH,BAND_H));
-		banding->setTag(OB_BANDING);
+		banding->setTag(TAG_OB_BANDING);
 		banding->setPosition(pos+(i+1)*eachBlock-CCRANDOM_0_1()*100-banding->getContentSize().width/2,baseHeight);
 		curBandlist.pushBack(banding);
-
-		//auto body = PhysicsBody::createBox(banding->getContentSize());
-		//body->applyForce(Vec2(0,body->getMass() *98 ));
-		//banding->setPhysicsBody(body);
 
 		layer->addChild(banding);
 		currentOblist->addObject(banding);
@@ -263,7 +253,7 @@ void Obstacle::addGroundob(){
 	bo->setContactTestBitmask(0xFFFFFFFF);
 	addBandingob(nextGround+nextLength,tmpint);
 
-	auto ground_pic =Sprite::create(PIC_GROUND,Rect(0,0,tmplength,GROUND_HHH));
+	auto ground_pic =Sprite::create(PIC_GROUND,Rect(0,0,tmplength,GROUND_PICH));
 	ground_pic->setAnchorPoint(Vec2(1,1));
 	ground_pic->setPosition(ground->getPositionX()+tmplength,ground->getPositionY());
 	layer->addChild(ground_pic,1);

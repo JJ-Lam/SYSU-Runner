@@ -130,6 +130,8 @@ void InformationLayer::resume()
 
 void InformationLayer::backToMenu()
 {
+	/*auto scene = (Scene*)this->getParent()->getChildByTag(1);
+	scene->getPhysicsWorld()->removeAllBodies();*/
 	auto d = Director::getInstance();
 	auto s = d->getRunningScene();
 	d->replaceScene(GameMenu::createScene());

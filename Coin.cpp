@@ -6,25 +6,28 @@ USING_NS_CC;
 Coin::Coin(Layer* l)
 {
 	this->autorelease();
-	coinsVector = new Vector<Sprite*>;
+	//coinsVector = new Vector<Sprite*>;
 	auto sp = Sprite::create(PIC_COIN);
 	coinSize = sp->getContentSize();
 	layer = l;
-	srand(unsigned(time(0)));
 }
 
 void Coin::removeOneCoin(Sprite* coin)
-{
+{/*
 	if(coin->getReferenceCount() < 2)
-		coin->retain();
-	coinsVector->eraseObject(coin);
+		coin->retain();*/
+//	coinsVector.eraseObject(coin);
+	
+	coin->getPhysicsBody()->removeFromWorld();
 	coin->removeFromParentAndCleanup(true);
+	//if(coin->getReferenceCount() < 2)
+	//	coin->release();
 }
 
 void Coin::removeUselessCoins()
 {
 	
-	for(Vector<Sprite*>::iterator i = coinsVector->begin(); i != coinsVector->end(); i++)
+	for(Vector<Sprite*>::iterator i = coinsVector.begin(); i != coinsVector.end(); i++)
 	{
 		auto worldSpace = this->convertToWorldSpace(i[0]->getPosition());
 
@@ -38,16 +41,16 @@ void Coin::removeUselessCoins()
 				i[0]->removeFromParentAndCleanup(true);
 			}*/
 			i[0]->removeFromParentAndCleanup(true);
-			i = coinsVector->erase(i);
+			i = coinsVector.erase(i);
 		}
-		if(i == coinsVector->end())
+		if(i == coinsVector.end())
 			break;
 	}
 }
 
 Sprite* Coin::placeCoin()
 {
-	if(coinsVector->size() <= 4)
+	if(coinsVector.size() <= 4)
 	{
 		auto layer = this->getParent();
 		auto newCoin = Sprite::create(PIC_COIN);
@@ -64,7 +67,7 @@ Sprite* Coin::placeCoin()
 		Vec2 temp = Vec2(Director::getInstance()->getWinSize().width, y);
 		Vec2 pos = this->convertToNodeSpace(temp);
 		newCoin->setPosition(pos);
-		coinsVector->pushBack(newCoin);
+		coinsVector.pushBack(newCoin);
 		return newCoin;
 	}
 	return NULL;
@@ -85,7 +88,7 @@ void Coin::placecoinSquare(int col,int row,float x,float y,Layer* l){
 			co->setPhysicsBody(body);
 			l->addChild(co);
 			co->setPosition(x+i*COIN_INTER+i*co->getContentSize().width,baseh+j*COIN_BASEHHIGHT);
-			coinsVector->pushBack(co);
+			coinsVector.pushBack(co);
 		}
 	}
 	
@@ -114,7 +117,7 @@ void Coin::placecoinLine(Vec2 posStart,Vec2 posEnd){
 		co->setPhysicsBody(body);
 		layer->addChild(co);
 		co->setPosition(posStart.x+i*COIN_INTER+i*coinSize.width,posStart.y+groundHeight+i*eachY);
-		coinsVector->pushBack(co);
+		coinsVector.pushBack(co);
 	}
 }
 void Coin::placecoinArrow(Vec2 ss,Vec2 ee){
@@ -136,7 +139,7 @@ void Coin::Manager(Vec2 startpos,Vec2 endpos){
 	float eachx = ((endpos.x-startpos.x)-(blockCount*COIN_BLOCK_SIZE))/blockCount+COIN_BLOCK_SIZE;
 	for(int i = 0;i<blockCount;i++){
 		int type = typeSelector();
-		//type = COIN_ARROW;
+		//type = COIN_LINE;
 		switch (type)
 		{
 		case COIN_LINE:
@@ -154,6 +157,18 @@ void Coin::Manager(Vec2 startpos,Vec2 endpos){
 					y1 = startpos.y+CCRANDOM_0_1()*200;
 				}
 				placecoinLine(Vec2(x,y),Vec2(x1,y1));
+				//auto sp = Sprite::create(PIC_COIN);
+				//sp->setPosition(startpos.x+500,startpos.y+100);
+				//auto body = PhysicsBody::createBox(sp->getContentSize());
+				//body->setDynamic(false);
+				//body->setContactTestBitmask(0xFFFFFFFF);
+				//body->setCollisionBitmask(COIN_COLLISION_MASK);
+				//sp->setTag(TAG_COIN);
+				//sp->setPhysicsBody(body);
+				//layer->addChild(sp,10);
+				////layer->addChild(sp);
+				//co->setPosition(posStart.x+i*COIN_INTER+i*coinSize.width,posStart.y+groundHeight+i*eachY);
+				/*coinsVector.pushBack(sp);*/
 				break;
 			}
 		case COIN_ARROW:
